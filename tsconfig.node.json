@@ -6,7 +6,9 @@
     "types": ["node"],
 
     "module": "nodenext",
-    "moduleDetection": "force"
+    "moduleDetection": "force",
+
+    "allowImportingTsExtensions": true
   },
   "include": ["vite.config.ts", "netlify/functions", "backend", "shared"]
 }
