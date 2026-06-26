@@ -1,4 +1,4 @@
-import { Context } from '@netlify/edge-functions';
+import type { Context } from '@netlify/edge-functions';
 
 export default async (request: Request, context: Context) => {
   const start = performance.now();
