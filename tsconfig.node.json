@@ -10,5 +10,5 @@
 
     "allowImportingTsExtensions": true
   },
-  "include": ["vite.config.ts", "netlify/functions", "backend", "shared"]
+  "include": ["vite.config.ts"]
 }
