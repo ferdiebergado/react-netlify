@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "oxc"],
+  "overrides": [
+    {
+      "files": ["./src/**"],
+      "plugins": ["react", "typescript", "oxc"],
+      "rules": {
+        "react/rules-of-hooks": "error",
+        "react/only-export-components": ["warn", { "allowConstantExport": true }]
+      }
+    },
+    {
+      "files": ["./netlify/edge-functions/**"],
+      "plugins": ["typescript", "oxc", "import"],
+      "rules": {
+        "import/extensions": ["error", "always", { "ignorePackages": true }]
+      }
+    }
+  ]
+}

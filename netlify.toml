@@ -1,0 +1,15 @@
+# Route API endpoints directly to Netlify Functions
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/:splat"
+status = 200
+
+# Catch-all rule for the React SPA router
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+[[edge_functions]]
+path = "/"
+function = "response"
