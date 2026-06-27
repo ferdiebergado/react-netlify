@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import LoginPage from './login-page';
+import Header from './components/header';
+import Page from './page';
 
 function App() {
   useEffect(() => {
@@ -12,7 +13,14 @@ function App() {
     fetchHello().catch(e => console.error(e));
   }, []);
 
-  return <LoginPage />;
+  return (
+    <div className="bg-secondary flex flex-col h-dvh items-center">
+      <Header />
+      <main className="flex-1 p-5 w-full">
+        <Page />
+      </main>
+    </div>
+  );
 }
 
 export default App;
