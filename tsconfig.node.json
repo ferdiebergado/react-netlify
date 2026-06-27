@@ -6,9 +6,7 @@
     "types": ["node"],
 
     "module": "nodenext",
-    "moduleDetection": "force",
-
-    "allowImportingTsExtensions": true
+    "moduleDetection": "force"
   },
   "include": ["vite.config.ts"]
 }

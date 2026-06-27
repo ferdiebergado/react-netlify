@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "strict": true,
-    "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
@@ -11,6 +10,9 @@
     "target": "es2023",
     "noEmit": true,
     "skipLibCheck": true,
-    "erasableSyntaxOnly": true
+    "erasableSyntaxOnly": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": true
   }
 }
