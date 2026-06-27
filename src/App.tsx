@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
+import FullpageSpinner from './components/fullpage-spinner';
 import Header from './components/header';
 import Page from './page';
 
@@ -17,7 +18,9 @@ function App() {
     <div className="bg-secondary flex flex-col h-dvh items-center">
       <Header />
       <main className="flex-1 p-5 w-full">
-        <Page />
+        <Suspense fallback={<FullpageSpinner />}>
+          <Page />
+        </Suspense>
       </main>
     </div>
   );
