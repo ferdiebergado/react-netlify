@@ -1,5 +1,5 @@
 import type { Database } from '../db.ts';
-import { SessionRowSchema, type NewSession, type Session } from './service.ts';
+import { SessionRowSchema, type NewSession, type Session } from './types.ts';
 
 const sessionColumns =
   'id, session_id sessionId, user_id userId, expires_at expiresAt, last_active_at lastActiveAt, revoked_at revokedAt, updated_at updatedAt, created_at createdAt, deleted_at deletedAt';
