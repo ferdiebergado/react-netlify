@@ -9,8 +9,7 @@
 
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
 
-    "types": [],
-    "allowImportingTsExtensions": true
+    "types": []
   },
   "include": ["netlify/edge-functions"]
 }
