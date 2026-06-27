@@ -1,7 +1,6 @@
 import { type Client, type Config, type InArgs, type ResultSet } from '@libsql/client';
 
 import config from './config.ts';
-import { ServiceUnavailableError } from './errors.ts';
 import logger from './logger.ts';
 
 // Type definitions
@@ -19,51 +18,23 @@ export interface Database {
   close(): Promise<void> | void;
 }
 
-// Database client instance
-let _dbClient: Client | undefined;
+const dbConfig: Config = {
+  url: config.databaseUrl,
+  authToken: config.tursoAuthToken,
+};
 
-/**
- * Initializes and returns the database client.
- * Performs a health check by executing a simple query.
- */
-async function initializeDbClient(): Promise<Client> {
-  if (_dbClient) return _dbClient;
+async function getClient() {
+  let factory: (config: Config) => Client;
 
-  let client: (config: Config) => Client;
-
-  if (config.env === 'development') {
-    const { createClient } = await import('@libsql/client');
-    client = createClient;
-  } else {
+  if (config.env === 'production') {
     const { createClient } = await import('@libsql/client/web');
-    client = createClient;
+    factory = createClient;
+  } else {
+    const { createClient } = await import('@libsql/client');
+    factory = createClient;
   }
 
-  try {
-    _dbClient = client({
-      url: config.databaseUrl,
-      authToken: config.tursoAuthToken,
-    });
-
-    // Health check
-    await runQuery(_dbClient, 'SELECT 1');
-
-    return _dbClient;
-  } catch (error) {
-    logger.error(error, 'Failed to initialize the database.');
-    throw new ServiceUnavailableError();
-  }
-}
-
-/**
- * Gets the initialized database client.
- * Throws an error if the client hasn't been initialized yet.
- */
-function getDbClient(): Client {
-  if (!_dbClient)
-    throw new Error('Database client is not initialized. Call initializeDbClient first.');
-
-  return _dbClient;
+  return factory(dbConfig);
 }
 
 /**
@@ -94,7 +65,7 @@ export async function execute<T extends QueryRow>(
   sql: string,
   args?: readonly SqlValue[]
 ): Promise<QueryResult<T>> {
-  const client = getDbClient();
+  const client = await getClient();
   return runQuery<T>(client, sql, args);
 }
 
@@ -104,7 +75,7 @@ export async function execute<T extends QueryRow>(
  * Returns a Database-like object for the transaction.
  */
 export async function transaction<T>(fn: (tx: Database) => Promise<T>): Promise<T> {
-  const client = getDbClient();
+  const client = await getClient();
   const tx = await client.transaction();
 
   // Create a Database-like object for the transaction
@@ -133,16 +104,6 @@ export async function transaction<T>(fn: (tx: Database) => Promise<T>): Promise<
   }
 }
 
-/**
- * Closes the database connection.
- */
-export function close() {
-  if (_dbClient) {
-    _dbClient.close();
-    _dbClient = undefined;
-  }
-}
-
 // Create and export the db object that implements the Database interface
 export const db: Database = {
   execute: async <T extends QueryRow>(
@@ -150,10 +111,5 @@ export const db: Database = {
     args?: readonly SqlValue[]
   ): Promise<QueryResult<T>> => execute<T>(sql, args),
   transaction: async <T>(fn: (tx: Database) => Promise<T>): Promise<T> => transaction<T>(fn),
-  close: () => {
-    close();
-  },
+  close: () => {},
 };
-
-// Initialize the database client
-await initializeDbClient();
