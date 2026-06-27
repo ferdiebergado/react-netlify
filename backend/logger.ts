@@ -20,7 +20,7 @@ const logger = pino({
   },
   timestamp: pino.stdTimeFunctions.isoTime,
   transport: {
-    target: process.env.ENV === 'development' ? 'pino-pretty' : 'pino/file',
+    target: process.env.ENV !== 'production' ? 'pino-pretty' : 'pino/file',
   },
   base: undefined,
 });
