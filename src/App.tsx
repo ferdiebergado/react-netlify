@@ -1,7 +1,6 @@
-import { Suspense, useEffect } from 'react';
-import FullpageSpinner from './components/fullpage-spinner';
-import Header from './components/header';
-import Page from './page';
+import { useEffect } from 'react';
+import Layout from './components/layout';
+import { TooltipProvider } from './components/ui/tooltip';
 
 function App() {
   useEffect(() => {
@@ -15,14 +14,9 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-secondary flex flex-col h-dvh items-center">
-      <Header />
-      <main className="flex-1 p-5 w-full">
-        <Suspense fallback={<FullpageSpinner />}>
-          <Page />
-        </Suspense>
-      </main>
-    </div>
+    <TooltipProvider>
+      <Layout />
+    </TooltipProvider>
   );
 }
 
