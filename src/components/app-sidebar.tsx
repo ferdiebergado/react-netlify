@@ -1,7 +1,7 @@
+import { ChartPieIcon, CommandIcon, CropIcon, MapTrifoldIcon } from '@phosphor-icons/react';
 import * as React from 'react';
 
 import { NavProjects } from '@/components/nav-projects';
-import { NavSecondary } from '@/components/nav-secondary';
 import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
@@ -12,14 +12,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import {
-  ChartPieIcon,
-  CommandIcon,
-  CropIcon,
-  LifebuoyIcon,
-  MapTrifoldIcon,
-  PaperPlaneTiltIcon,
-} from '@phosphor-icons/react';
 
 const data = {
   user: {
@@ -27,22 +19,10 @@ const data = {
     email: 'm@example.com',
     avatar: '/avatars/shadcn.jpg',
   },
-  navSecondary: [
-    {
-      title: 'Support',
-      url: '#',
-      icon: <LifebuoyIcon />,
-    },
-    {
-      title: 'Feedback',
-      url: '#',
-      icon: <PaperPlaneTiltIcon />,
-    },
-  ],
   projects: [
     {
-      name: 'Design Engineering',
-      url: '#',
+      name: 'Dashboard',
+      url: '/',
       icon: <CropIcon />,
     },
     {
@@ -77,7 +57,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

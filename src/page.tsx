@@ -8,7 +8,7 @@ const NotFound = lazy(() => import('./pages/not-found'));
 export default function Page() {
   return (
     <Switch>
-      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/" component={Dashboard} />
       <Route path="/signin" component={LoginPage} />
       <Route>
         <NotFound />
