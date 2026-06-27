@@ -16,6 +16,37 @@
       "rules": {
         "import/extensions": ["error", "always", { "ignorePackages": true }]
       }
+    },
+    {
+      "files": ["shared/**"],
+
+      "plugins": ["node", "unicorn"],
+
+      "env": {
+        "browser": false,
+        "node": false
+      },
+
+      "rules": {
+        "node/no-process-env": "error",
+        "no-restricted-globals": [
+          "error",
+          "window",
+          "document",
+          "navigator",
+          "localStorage",
+          "sessionStorage",
+          "process",
+          "Buffer",
+          "Deno"
+        ],
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": ["node:*", "react", "react-dom", "@netlify/*"]
+          }
+        ]
+      }
     }
   ]
 }
