@@ -21,7 +21,7 @@ async function handler(request: AppRequest, ctx: Context) {
     success: true,
   };
 
-  const sessionCookie = bakeSessionCookie('', new Date(Date.now() - 10000).toISOString());
+  const sessionCookie = bakeSessionCookie('', new Date().toISOString());
   ctx.cookies.set(sessionCookie);
   return Response.json(payload);
 }
