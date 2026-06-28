@@ -23,6 +23,7 @@ import {
   SignOutIcon,
   SparkleIcon,
 } from '@phosphor-icons/react';
+import { toast } from 'sonner';
 import type { Profile } from '../../shared/schemas/user';
 import { Spinner } from './ui/spinner';
 
@@ -34,6 +35,11 @@ export function NavUser({ user }: NavUserProps) {
   const { isMobile } = useSidebar();
   const { isPending, mutate: signout } = useSignout();
   const { name, picture, email } = user;
+  const handleSignout = () => {
+    signout(undefined, {
+      onSuccess: () => toast.info('Signed out.'),
+    });
+  };
 
   return (
     <SidebarMenu>
@@ -95,7 +101,7 @@ export function NavUser({ user }: NavUserProps) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem closeOnClick={false} onClick={() => signout()}>
+            <DropdownMenuItem closeOnClick={false} onClick={handleSignout}>
               {isPending ? (
                 <>
                   <Spinner data-icon="inline-start" /> Signing out...
