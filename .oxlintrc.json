@@ -10,7 +10,14 @@
       "plugins": ["react", "typescript", "oxc", "unicorn"],
       "rules": {
         "react/rules-of-hooks": "error",
-        "react/only-export-components": ["warn", { "allowConstantExport": true }]
+        "react/only-export-components": [
+          "warn",
+          { "allowConstantExport": true }
+        ],
+        "react/exhaustive-deps": "error",
+        "react/jsx-key": "error",
+        "react/no-array-index-key": "error",
+        "react/no-children-prop": "error"
       }
     },
     {
@@ -22,14 +29,11 @@
     },
     {
       "files": ["shared/**"],
-
       "plugins": ["node", "unicorn"],
-
       "env": {
         "browser": false,
         "node": false
       },
-
       "rules": {
         "node/no-process-env": "error",
         "no-restricted-globals": [
