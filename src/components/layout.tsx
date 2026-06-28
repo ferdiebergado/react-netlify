@@ -3,6 +3,7 @@ import { Toaster } from 'sonner';
 
 import { AppSidebar } from '@/components/app-sidebar';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { ThemeMenu } from '@/theme/theme-menu';
 import SkeletonCard from './skeleton-card';
 
 type LayoutProps = {
@@ -14,9 +15,12 @@ export default function Layout({ children }: LayoutProps) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
+          </div>
+          <div className="px-4">
+            <ThemeMenu />
           </div>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 pt-0">

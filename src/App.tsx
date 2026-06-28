@@ -7,6 +7,7 @@ import { TooltipProvider } from './components/ui/tooltip';
 import { queryClient } from './lib/query-client';
 import Page from './page';
 import Fallback from './pages/fallback';
+import ThemeProvider from './theme/theme-provider';
 
 function App() {
   const { reset } = useQueryErrorResetBoundary();
@@ -20,11 +21,13 @@ function App() {
       onReset={reset}
     >
       <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Suspense fallback={<SplashScreen />}>
-            <Page />
-          </Suspense>
-        </TooltipProvider>
+        <ThemeProvider>
+          <TooltipProvider>
+            <Suspense fallback={<SplashScreen />}>
+              <Page />
+            </Suspense>
+          </TooltipProvider>
+        </ThemeProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>
     </ErrorBoundary>
