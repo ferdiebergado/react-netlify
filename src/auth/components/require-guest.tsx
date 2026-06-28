@@ -1,3 +1,4 @@
+import PublicLayout from '@/components/public-layout';
 import type { ReactNode } from 'react';
 import { Redirect } from 'wouter';
 import { useCurrentUser } from '../hooks';
@@ -11,5 +12,5 @@ export default function RequireGuest({ children }: RequireGuestProps) {
 
   if (currentUser) return <Redirect to="/" replace />;
 
-  return children;
+  return <PublicLayout>{children}</PublicLayout>;
 }
