@@ -2,7 +2,7 @@ import type { Context } from '@netlify/functions';
 import { OAUTH_STATE_COOKIE } from '../../backend/auth/google.ts';
 import { signin } from '../../backend/auth/service.ts';
 import config from '../../backend/config.ts';
-import type { Cookie } from '../../backend/http/cookie.ts';
+import { bakeCookie } from '../../backend/http/cookie.ts';
 import { logRequest, withErrorHandler } from '../../backend/http/middlewares.ts';
 import { getBaseRequestContext } from '../../backend/http/utils.ts';
 import logger from '../../backend/logger.ts';
@@ -14,16 +14,8 @@ async function handler(request: Request, context: Context) {
   const state = searchParams.get('state');
 
   const savedState = context.cookies.get(OAUTH_STATE_COOKIE);
-
-  const expiredStateCookie: Cookie = {
-    name: OAUTH_STATE_COOKIE,
-    value: '',
-    path: '/',
-    maxAge: 0,
-    secure: true,
-    httpOnly: true,
-    sameSite: 'Lax',
-  };
+  const expiredStateCookie = bakeCookie(OAUTH_STATE_COOKIE, '', new Date());
+  expiredStateCookie.httpOnly = true;
   context.cookies.set(expiredStateCookie);
 
   const { host } = config;
