@@ -2,8 +2,12 @@ import { Suspense, type ReactNode } from 'react';
 import { Toaster } from 'sonner';
 
 import { AppSidebar } from '@/components/app-sidebar';
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { ThemeMenu } from '@/theme/theme-menu';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
+import { ThemeMenu } from '../theme/theme-menu';
 import SkeletonCard from './skeleton-card';
 
 type LayoutProps = {

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { useSearchParams } from 'wouter';
 
-import { SigninForm } from '@/auth/components/signin-form';
+import { SigninForm } from '../auth/components/signin-form';
 
 export default function SigninPage() {
   const [searchParams] = useSearchParams();
