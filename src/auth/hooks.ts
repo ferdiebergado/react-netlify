@@ -9,6 +9,8 @@ export const fetchCurrentUserOptions = () =>
   queryOptions({
     queryKey: AUTH_KEYS.currentUser,
     queryFn: fetchCurrentUser,
+    retry: false,
+    staleTime: 5 * 60 * 1000,
   });
 
 export const useCurrentUser = () => useSuspenseQuery(fetchCurrentUserOptions());
