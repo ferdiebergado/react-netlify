@@ -16,16 +16,16 @@ export default function Fallback({ resetErrorBoundary }: FallbackProps) {
     <Empty className="flex h-dvh items-center justify-center border">
       <EmptyHeader>
         <EmptyMedia variant="icon" className="text-destructive">
-          <WarningIcon size={10} />
+          <WarningIcon className="size-12 bg-background" />
         </EmptyMedia>
-        <EmptyTitle className="text-destructive text-2xl font-semibold text-pretty">
-          An unexpected error has occurred.
+        <EmptyTitle className="text-destructive text-xl font-semibold text-pretty">
+          Something went wrong.
         </EmptyTitle>
         <EmptyDescription className="max-w-xs text-balance">
           Please try again or reload the page. Contact support if the problem persists.
         </EmptyDescription>
       </EmptyHeader>
-      <EmptyContent className="flex-row justify-center gap-3">
+      <EmptyContent className="flex-row justify-center gap-8">
         <Button onClick={() => resetErrorBoundary()}>
           <ArrowsClockwiseIcon data-icon="inline-start" />
           Try again

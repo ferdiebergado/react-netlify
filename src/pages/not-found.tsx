@@ -18,7 +18,7 @@ export default function PageNotFound() {
     <Empty className="flex h-dvh items-center justify-center">
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <LinkBreakIcon className="size-10" />
+          <LinkBreakIcon className="size-10 bg-background" />
         </EmptyMedia>
         <EmptyTitle className="text-4xl font-semibold">Page not found</EmptyTitle>
         <EmptyDescription>The page you're looking for doesn't exist.</EmptyDescription>
