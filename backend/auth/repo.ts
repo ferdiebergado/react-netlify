@@ -3,8 +3,8 @@ import type { Database } from '../db.ts';
 
 export async function upsertUser(db: Database, user: NewUser): Promise<User['id']> {
   const sql = `
-INSERT INTO users (google_id, name, email, picture, role, is_active)
-VALUES (?, ?, ?, ?, ?, ?)
+INSERT INTO users (google_id, name, email, picture, role)
+VALUES (?, ?, ?, ?, ?)
 ON CONFLICT (google_id)
 DO UPDATE SET
   name = EXCLUDED.name,
@@ -27,9 +27,9 @@ RETURNING id
 
 export default async function findUser(db: Database, id: User['id']): Promise<User | undefined> {
   const sql = `
-SELECT id, google_id googleId, email, name, picture, role, is_active isActive, last_login_at lastLoginAt, updated_at updatedAt, created_at createAt
+SELECT id, google_id googleId, email, name, picture, role, last_login_at lastLoginAt, updated_at updatedAt, created_at createAt
 FROM users
-WHERE id = ? AND is_active = 1
+WHERE id = ? AND deactivated_at IS NULL
 LIMIT 1
 `;
 

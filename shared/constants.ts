@@ -4,3 +4,5 @@ export const SESSION = {
   DURATION_MINUTES: 60 * 24 * 30 * 3, // 90 days
   HEADER_NAME: 'x-session-id',
 } as const;
+
+export const API_BASE_URL = '/api';

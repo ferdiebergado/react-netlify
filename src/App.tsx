@@ -1,22 +1,33 @@
-import { useEffect } from 'react';
-import Layout from './components/layout';
+import { QueryClientProvider, useQueryErrorResetBoundary } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import SplashScreen from './components/splash-screen';
 import { TooltipProvider } from './components/ui/tooltip';
+import { queryClient } from './lib/query-client';
+import Page from './page';
+import Fallback from './pages/fallback';
 
 function App() {
-  useEffect(() => {
-    const fetchHello = async () => {
-      const res = await fetch('/api/hello');
-      const msg = await res.text();
-      console.log(msg);
-    };
-
-    fetchHello().catch(e => console.error(e));
-  }, []);
+  const { reset } = useQueryErrorResetBoundary();
 
   return (
-    <TooltipProvider>
-      <Layout />
-    </TooltipProvider>
+    <ErrorBoundary
+      FallbackComponent={Fallback}
+      // onError={(error, info) => {
+      //   // Log the error to your error reporting service
+      // }}
+      onReset={reset}
+    >
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Suspense fallback={<SplashScreen />}>
+            <Page />
+          </Suspense>
+        </TooltipProvider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

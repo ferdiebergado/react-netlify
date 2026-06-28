@@ -11,5 +11,5 @@
 
     "types": []
   },
-  "include": ["netlify/edge-functions"]
+  "include": ["netlify/edge-functions", "shared"]
 }

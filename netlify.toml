@@ -13,3 +13,12 @@ status = 200
 [[edge_functions]]
 path = "/"
 function = "response"
+
+[[edge_functions]]
+path = "/"
+function = "session"
+
+[[edge_functions]]
+path = "/api/*"
+excludedPath = ["/api/signin", "/api/oauthcallback"]
+function = "session"

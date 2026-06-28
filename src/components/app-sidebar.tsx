@@ -12,13 +12,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useCurrentUser } from '../auth/hooks';
 
 const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
   projects: [
     {
       name: 'Dashboard',
@@ -38,6 +34,8 @@ const data = {
   ],
 };
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: currentUser } = useCurrentUser();
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -59,7 +57,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={currentUser!} />
       </SidebarFooter>
     </Sidebar>
   );

@@ -8,7 +8,7 @@ import { getBaseRequestContext } from '../../backend/http/utils.ts';
 import logger from '../../backend/logger.ts';
 import { bakeSessionCookie } from '../../backend/session/service.ts';
 
-async function handler(request: Request, context: Context) {
+async function handler(request: Request, context: Context): Promise<Response> {
   const { searchParams } = new URL(request.url);
   const authCode = searchParams.get('code');
   const state = searchParams.get('state');

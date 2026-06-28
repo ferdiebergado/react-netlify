@@ -1,10 +1,15 @@
+import { Suspense, type ReactNode } from 'react';
+import { Toaster } from 'sonner';
+
 import { AppSidebar } from '@/components/app-sidebar';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { Suspense } from 'react';
-import Page from '../page';
 import SkeletonCard from './skeleton-card';
 
-export default function Layout() {
+type LayoutProps = {
+  children: ReactNode;
+};
+
+export default function Layout({ children }: LayoutProps) {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -14,11 +19,10 @@ export default function Layout() {
             <SidebarTrigger className="-ml-1" />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <Suspense fallback={<SkeletonCard />}>
-            <Page />
-          </Suspense>
-        </div>
+        <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <Suspense fallback={<SkeletonCard />}>{children}</Suspense>
+        </main>
+        <Toaster />
       </SidebarInset>
     </SidebarProvider>
   );
