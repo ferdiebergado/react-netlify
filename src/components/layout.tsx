@@ -26,7 +26,7 @@ export default function Layout({ children }: LayoutProps) {
         <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <Suspense fallback={<SkeletonCard />}>{children}</Suspense>
         </main>
-        <Toaster />
+        <Toaster position="top-right" richColors />
       </SidebarInset>
     </SidebarProvider>
   );
