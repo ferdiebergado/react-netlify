@@ -1,5 +1,4 @@
 import { useSignout } from '@/auth/hooks';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,6 +25,7 @@ import {
 import { toast } from 'sonner';
 import type { Profile } from '../../shared/schemas/user';
 import { Spinner } from './ui/spinner';
+import UserAvatar from './user-avatar';
 
 type NavUserProps = {
   user: Profile;
@@ -46,12 +46,11 @@ export function NavUser({ user }: NavUserProps) {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger
-            render={<SidebarMenuButton size="lg" className="aria-expanded:bg-muted" />}
+            render={
+              <SidebarMenuButton size="lg" className="aria-expanded:bg-muted" />
+            }
           >
-            <Avatar>
-              <AvatarImage src={picture} alt={name} />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
+            <UserAvatar name={name} picture={picture} />
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-medium">{name}</span>
               <span className="truncate text-xs">{email}</span>
@@ -67,10 +66,7 @@ export function NavUser({ user }: NavUserProps) {
             <DropdownMenuGroup>
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  <Avatar>
-                    <AvatarImage src={picture} alt={name} />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
+                  <UserAvatar name={name} picture={picture} />
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-medium">{name}</span>
                     <span className="truncate text-xs">{email}</span>
