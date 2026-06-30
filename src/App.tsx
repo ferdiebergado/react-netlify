@@ -1,8 +1,12 @@
-import { QueryClientProvider, useQueryErrorResetBoundary } from '@tanstack/react-query';
+import {
+  QueryClientProvider,
+  useQueryErrorResetBoundary,
+} from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import SplashScreen from './components/splash-screen';
+import { Toaster } from './components/ui/sonner';
 import { TooltipProvider } from './components/ui/tooltip';
 import { queryClient } from './lib/query-client';
 import Page from './page';
@@ -27,6 +31,7 @@ function App() {
               <Page />
             </Suspense>
           </TooltipProvider>
+          <Toaster position="top-right" richColors />
         </ThemeProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>

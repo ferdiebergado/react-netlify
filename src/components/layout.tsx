@@ -1,12 +1,10 @@
-import { Suspense, type ReactNode } from 'react';
-import { Toaster } from 'sonner';
-
 import { AppSidebar } from '@/components/app-sidebar';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
+import { Suspense, type ReactNode } from 'react';
 import { ThemeMenu } from '../theme/theme-menu';
 import SkeletonCard from './skeleton-card';
 
@@ -30,7 +28,6 @@ export default function Layout({ children }: LayoutProps) {
         <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <Suspense fallback={<SkeletonCard />}>{children}</Suspense>
         </main>
-        <Toaster position="top-right" richColors />
       </SidebarInset>
     </SidebarProvider>
   );
