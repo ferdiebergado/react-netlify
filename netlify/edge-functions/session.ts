@@ -2,7 +2,10 @@ import type { Context } from '@netlify/edge-functions';
 import { API_BASE_URL, SESSION } from '../../shared/constants.ts';
 import { ERROR_CODES, type ApiResponse } from '../../shared/types.ts';
 
-export default async (request: Request, context: Context): Promise<Response> => {
+export default async (
+  request: Request,
+  context: Context,
+): Promise<Response> => {
   const sessionId = context.cookies.get(SESSION.COOKIE_NAME);
 
   if (sessionId) {
@@ -32,5 +35,5 @@ export default async (request: Request, context: Context): Promise<Response> => 
     return Response.json(payload, { status: 401 });
   }
 
-  return Response.redirect('/signin', 302);
+  return Response.redirect('/signin');
 };
