@@ -2,8 +2,10 @@ import type { Context } from '@netlify/functions';
 import { OAUTH_STATE_COOKIE } from '../../backend/auth/google.ts';
 import { signin } from '../../backend/auth/service.ts';
 import config from '../../backend/config.ts';
-import { bakeCookie } from '../../backend/http/cookie.ts';
-import { logRequest, withErrorHandler } from '../../backend/http/middlewares.ts';
+import {
+  logRequest,
+  withErrorHandler,
+} from '../../backend/http/middlewares.ts';
 import { getBaseRequestContext } from '../../backend/http/utils.ts';
 import logger from '../../backend/logger.ts';
 import { bakeSessionCookie } from '../../backend/session/service.ts';
@@ -14,16 +16,16 @@ async function handler(request: Request, context: Context): Promise<Response> {
   const state = searchParams.get('state');
 
   const savedState = context.cookies.get(OAUTH_STATE_COOKIE);
-  const expiredStateCookie = bakeCookie(OAUTH_STATE_COOKIE, '', new Date());
-  expiredStateCookie.httpOnly = true;
-  context.cookies.set(expiredStateCookie);
 
-  const { host } = config;
+  context.cookies.delete(OAUTH_STATE_COOKIE);
 
   if (!authCode || !state || state !== savedState) {
-    const signinUrl = new URL(`${host}/signin`);
+    const signinUrl = new URL(`${config.host}/signin`);
     signinUrl.searchParams.set('error', 'Access denied.');
-    logger.warn({ ...getBaseRequestContext(request, context), msg: 'Signin failed.' });
+    logger.warn({
+      ...getBaseRequestContext(request, context),
+      msg: 'Signin failed.',
+    });
 
     return Response.redirect(signinUrl);
   }
@@ -41,7 +43,7 @@ async function handler(request: Request, context: Context): Promise<Response> {
     userId: user.googleId,
   });
 
-  const dashboardUrl = new URL(host);
+  const dashboardUrl = new URL(config.host);
   dashboardUrl.searchParams.set('success', 'Signed in succesfully.');
 
   return Response.redirect(dashboardUrl);
