@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import type { CamelCasedProperties } from 'type-fest';
 import * as z from 'zod';
 
@@ -8,7 +7,7 @@ const LibsqlUrlSchema = z
   .string()
   .trim()
   .refine(
-    value => {
+    (value) => {
       // 1. SQLite in-memory
       if (value === ':memory:') return true;
 
@@ -29,8 +28,9 @@ const LibsqlUrlSchema = z
       }
     },
     {
-      message: 'Invalid libSQL database URL. Expected :memory:, file:path, or libsql://host',
-    }
+      message:
+        'Invalid libSQL database URL. Expected :memory:, file:path, or libsql://host',
+    },
   )
   .default('file:local.db');
 
