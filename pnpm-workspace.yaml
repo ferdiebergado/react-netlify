@@ -1,8 +1,10 @@
 allowBuilds:
   "@parcel/watcher": true
   esbuild: true
+  netlify-cli: true
   sharp: true
   simple-git-hooks: true
+  unix-dgram: true
 blockExoticSubdeps: true
 # minimumReleaseAge: 10080
 minimumReleaseAgeStrict: true
