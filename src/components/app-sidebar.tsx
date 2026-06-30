@@ -1,4 +1,4 @@
-import { ChartPieIcon, CommandIcon, CropIcon, MapTrifoldIcon } from '@phosphor-icons/react';
+import { CommandIcon, SpeedometerIcon } from '@phosphor-icons/react';
 import * as React from 'react';
 
 import { NavProjects } from '@/components/nav-projects';
@@ -19,17 +19,7 @@ const data = {
     {
       name: 'Dashboard',
       url: '/',
-      icon: <CropIcon />,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: <ChartPieIcon />,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: <MapTrifoldIcon />,
+      icon: <SpeedometerIcon />,
     },
   ],
 };
@@ -42,7 +32,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={<a href="#" />}>
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                 <CommandIcon className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
