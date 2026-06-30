@@ -1,10 +1,13 @@
 import type { NewUser, User } from '../../shared/schemas/user.ts';
 import type { Database } from '../db.ts';
 
-export async function upsertUser(db: Database, user: NewUser): Promise<User['id']> {
+export async function upsertUser(
+  db: Database,
+  user: NewUser,
+): Promise<User['id']> {
   const sql = `
-INSERT INTO users (google_id, name, email, picture, role)
-VALUES (?, ?, ?, ?, ?)
+INSERT INTO users (google_id, name, email, picture)
+VALUES (?, ?, ?, ?)
 ON CONFLICT (google_id)
 DO UPDATE SET
   name = EXCLUDED.name,
@@ -25,7 +28,10 @@ RETURNING id
   return rows[0].id;
 }
 
-export default async function findUser(db: Database, id: User['id']): Promise<User | undefined> {
+export default async function findUser(
+  db: Database,
+  id: User['id'],
+): Promise<User | undefined> {
   const sql = `
 SELECT id, google_id googleId, email, name, picture, role, last_login_at lastLoginAt, updated_at updatedAt, created_at createAt
 FROM users
