@@ -1,4 +1,11 @@
-import type { Client, Config, InArgs, ResultSet } from '@libsql/client';
+import {
+  type Client,
+  type Config,
+  type InArgs,
+  type ResultSet,
+  createClient,
+} from '@libsql/client';
+import { createClient as createClientWeb } from '@libsql/client/web';
 import config from './config.ts';
 import logger from './logger.ts';
 
@@ -48,13 +55,11 @@ let cachedClient: Client | null = null;
 async function getClient(): Promise<Client> {
   if (cachedClient) return cachedClient;
 
-  let libsql = '@libsql/client';
+  let factory = createClient;
 
-  if (config.env === 'production') libsql = '@libsql/client/web';
+  if (config.env === 'production') factory = createClientWeb;
 
-  const { createClient } = await import(libsql);
-
-  cachedClient = (createClient as (cfg: Config) => Client)(dbConfig);
+  cachedClient = factory(dbConfig);
   return cachedClient;
 }
 
