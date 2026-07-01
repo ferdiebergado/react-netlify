@@ -14,5 +14,5 @@
     "erasableSyntaxOnly": true,
     "allowImportingTsExtensions": true
   },
-  "include": ["netlify/functions", "backend", "shared"]
+  "include": ["netlify/functions", "backend", "shared", "tests"]
 }
