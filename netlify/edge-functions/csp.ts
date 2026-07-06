@@ -22,12 +22,10 @@ export default async (
   const contentType = res.headers.get('content-type');
   if (!contentTypeMatches('text/html', contentType)) return res;
 
-  const baseCsp = `default-src 'self'; img-src 'self' https://*.googleusercontent.com data:; connect-src 'self' ${GOOGLE_ACCOUNTS_URL}; worker-src 'self' 'blob:'; frame-src ${GOOGLE_ACCOUNTS_URL}; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors ${GOOGLE_ACCOUNTS_URL}; upgrade-insecure-requests`;
+  const includeUnsafeInline = () =>
+    context.deploy.context === 'dev' ? `'unsafe-inline'` : '';
 
-  let csp = `${baseCsp}; script-src 'self' ${GOOGLE_ACCOUNTS_URL} 'unsafe-inline'; style-src 'self' ${GOOGLE_ACCOUNTS_URL} 'unsafe-inline'`;
-
-  if (context.deploy.context === 'production')
-    csp = `${baseCsp}; script-src 'self' ${GOOGLE_ACCOUNTS_URL}; style-src 'self' ${GOOGLE_ACCOUNTS_URL}`;
+  const csp = `default-src 'self'; script-src 'self' ${GOOGLE_ACCOUNTS_URL} ${includeUnsafeInline()}; style-src 'self' ${GOOGLE_ACCOUNTS_URL} ${includeUnsafeInline()}; img-src 'self' https://*.googleusercontent.com data:; connect-src 'self' ${GOOGLE_ACCOUNTS_URL}; worker-src 'self' 'blob:'; frame-src ${GOOGLE_ACCOUNTS_URL}; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors ${GOOGLE_ACCOUNTS_URL}; upgrade-insecure-requests`;
 
   res.headers.set('Content-Security-Policy', csp);
 
