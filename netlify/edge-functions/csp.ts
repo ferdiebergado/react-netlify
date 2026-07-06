@@ -25,7 +25,7 @@ export default async (
   const includeUnsafeInline = () =>
     context.deploy.context === 'dev' ? `'unsafe-inline'` : '';
 
-  const csp = `default-src 'self'; script-src 'self' ${GOOGLE_ACCOUNTS_URL} ${includeUnsafeInline()}; style-src 'self' ${GOOGLE_ACCOUNTS_URL} ${includeUnsafeInline()}; img-src 'self' https://*.googleusercontent.com data:; connect-src 'self' ${GOOGLE_ACCOUNTS_URL}; worker-src 'self' 'blob:'; frame-src ${GOOGLE_ACCOUNTS_URL}; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors ${GOOGLE_ACCOUNTS_URL}; upgrade-insecure-requests`;
+  const csp = `default-src 'self'; script-src 'self' ${GOOGLE_ACCOUNTS_URL} ${includeUnsafeInline()}; style-src 'self' ${GOOGLE_ACCOUNTS_URL} ${includeUnsafeInline()}; img-src 'self' https://*.googleusercontent.com data:; connect-src 'self' ${GOOGLE_ACCOUNTS_URL}; worker-src 'self'; frame-src ${GOOGLE_ACCOUNTS_URL}; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors ${GOOGLE_ACCOUNTS_URL}; upgrade-insecure-requests`;
 
   res.headers.set('Content-Security-Policy', csp);
 
