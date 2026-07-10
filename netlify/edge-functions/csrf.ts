@@ -1,5 +1,6 @@
 import type { Config, Context } from '@netlify/edge-functions';
 import { ERROR_CODES, type ApiResponse } from '../../shared/types.ts';
+import { createRequestMetadata } from './_shared/utils.ts';
 
 export const config: Config = {
   method: ['POST', 'PUT', 'PATCH', 'DELETE'],
@@ -13,27 +14,18 @@ export default async (
 
   if (!fetchSite || fetchSite !== 'same-origin') {
     const status = 403;
-    const meta = {
-      timestamp: new Date().toISOString(),
-      requestId: context.requestId,
-      method: request.method,
-      path: request.url,
-      ip: context.ip,
-      city: context.geo.city ?? 'unknown',
-      country: context.geo.country?.code ?? 'unknown',
-      userAgent: request.headers.get('user-agent') ?? 'unknown',
-      status,
-    };
+    const meta = createRequestMetadata(context, request);
 
     const payload: ApiResponse = {
       success: false,
       error: {
         code: ERROR_CODES.FORBIDDEN,
         message: 'cross-origin requests disallowed',
+        requestId: context.requestId,
       },
     };
 
-    console.warn(payload.error.message, { meta });
+    console.warn(payload.error.message, meta);
 
     return Response.json(payload, { status });
   }

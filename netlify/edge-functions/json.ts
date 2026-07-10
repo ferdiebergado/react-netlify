@@ -1,5 +1,6 @@
 import type { Config, Context } from '@netlify/edge-functions';
 import { ERROR_CODES, type ApiResponse } from '../../shared/types.ts';
+import { createRequestMetadata } from './_shared/utils.ts';
 
 export const config: Config = {
   method: ['POST', 'PUT', 'PATCH'],
@@ -11,29 +12,20 @@ export default async (
 ): Promise<Response> => {
   const contentType = request.headers.get('content-type');
 
-  if (!contentType || !/^application\/json(;.*)?$/i.test(contentType)) {
+  if (!contentType || contentType.split(';')[0] !== 'application/json') {
     const payload: ApiResponse = {
       success: false,
       error: {
         code: ERROR_CODES.UNSUPPORTED_MEDIA,
         message: 'Unsupported data type',
+        requestId: context.requestId,
       },
     };
 
     const status = 415;
-    const meta = {
-      timestamp: new Date().toISOString(),
-      requestId: context.requestId,
-      method: request.method,
-      path: request.url,
-      ip: context.ip,
-      city: context.geo.city ?? 'unknown',
-      country: context.geo.country?.code ?? 'unknown',
-      userAgent: request.headers.get('user-agent') ?? 'unknown',
-      status,
-    };
+    const meta = createRequestMetadata(context, request);
 
-    console.warn(payload.error, { meta });
+    console.warn(payload.error, meta);
 
     return Response.json(payload, { status });
   }

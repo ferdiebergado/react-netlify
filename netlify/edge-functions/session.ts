@@ -1,6 +1,7 @@
 import type { Context } from '@netlify/edge-functions';
 import { API_BASE_URL, SESSION } from '../../shared/constants.ts';
 import { ERROR_CODES, type ApiResponse } from '../../shared/types.ts';
+import { createRequestMetadata } from './_shared/utils.ts';
 
 export default async (
   request: Request,
@@ -14,22 +15,18 @@ export default async (
   }
 
   const msg = 'No session cookie';
-  console.warn(msg, {
-    timestamp: new Date().toISOString(),
-    requestId: context.requestId,
-    method: request.method,
-    path: request.url,
-    ip: context.ip,
-    city: context.geo.city ?? 'unknown',
-    country: context.geo.country?.code ?? 'unknown',
-    userAgent: request.headers.get('user-agent') ?? 'unknown',
-  });
+  const meta = createRequestMetadata(context, request);
+  console.warn(msg, meta);
 
   const url = new URL(request.url);
-  if (url.pathname.startsWith(API_BASE_URL + '/')) {
+  if (isApiRequest(url.pathname)) {
     const payload: ApiResponse = {
       success: false,
-      error: { code: ERROR_CODES.UNAUTHORIZED, message: msg },
+      error: {
+        code: ERROR_CODES.UNAUTHORIZED,
+        message: msg,
+        requestId: context.requestId,
+      },
     };
 
     return Response.json(payload, { status: 401 });
@@ -37,3 +34,6 @@ export default async (
 
   return Response.redirect('/signin');
 };
+
+const isApiRequest = (pathname: string) =>
+  pathname.startsWith(API_BASE_URL + '/');
