@@ -6,20 +6,13 @@ import {
 } from '../../backend/auth/google.ts';
 import { bakeCookie } from '../../backend/http/cookie.ts';
 import {
+  checkMethod,
   logRequest,
   withErrorHandler,
 } from '../../backend/http/middlewares.ts';
-import type { AppRequest, HttpMethod } from '../../backend/http/types.ts';
+import type { AppRequest } from '../../backend/http/types.ts';
 
-async function handler(request: AppRequest, context: Context) {
-  const allowedMethod: HttpMethod = 'GET';
-
-  if (request.method !== allowedMethod)
-    return new Response(undefined, {
-      status: 405,
-      headers: { Allow: allowedMethod },
-    });
-
+async function handler(_: AppRequest, context: Context) {
   const state = randomBytes(32).toString('base64url');
   const authUrl = generateAuthUrl(state);
 
@@ -34,4 +27,4 @@ async function handler(request: AppRequest, context: Context) {
   return Response.redirect(authUrl);
 }
 
-export default withErrorHandler(logRequest(handler));
+export default withErrorHandler(logRequest(checkMethod(handler, ['GET'])));

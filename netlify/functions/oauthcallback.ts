@@ -3,6 +3,7 @@ import { OAUTH_STATE_COOKIE } from '../../backend/auth/google.ts';
 import { signin } from '../../backend/auth/service.ts';
 import config from '../../backend/config.ts';
 import {
+  checkMethod,
   logRequest,
   withErrorHandler,
 } from '../../backend/http/middlewares.ts';
@@ -49,4 +50,4 @@ async function handler(request: Request, context: Context): Promise<Response> {
   return Response.redirect(dashboardUrl);
 }
 
-export default withErrorHandler(logRequest(handler));
+export default withErrorHandler(logRequest(checkMethod(handler, ['GET'])));

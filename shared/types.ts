@@ -6,6 +6,7 @@ export const ERROR_CODES = {
   NOT_FOUND: 'NOT_FOUND',
   CONFLICT: 'CONFLICT',
   UNSUPPORTED_MEDIA: 'UNSUPPORTED MEDIA TYPE',
+  METHOD_NOT_ALLOWED: 'METHOD NOT ALLOWED',
   SERVICE_UNAVAILABLE: 'SERVICE UNAVAILABLE',
   INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
 } as const;
@@ -32,4 +33,6 @@ export type ApiSuccessResponse<T> = {
   data?: T;
 };
 
-export type ApiResponse<T = undefined> = ApiSuccessResponse<T> | ApiErrorResponse;
+export type ApiResponse<T = undefined> =
+  | ApiSuccessResponse<T>
+  | ApiErrorResponse;
