@@ -6,6 +6,9 @@ import { UnauthorizedError } from '../errors.ts';
 
 export const OAUTH_STATE_COOKIE = '__Host-oauth_state';
 
+const OAUTH_SCOPES = 'openid email profile';
+const OAUTH_PROMPT = 'consent';
+
 export const oauthClient = new OAuth2Client({
   clientId: config.googleClientId,
   clientSecret: config.googleClientSecret,
@@ -15,34 +18,50 @@ export const oauthClient = new OAuth2Client({
 export const generateAuthUrl = (state: string): string =>
   oauthClient.generateAuthUrl({
     access_type: 'offline',
-    scope: 'openid email profile',
-    prompt: 'consent',
+    scope: OAUTH_SCOPES,
+    prompt: OAUTH_PROMPT,
     include_granted_scopes: true,
     state,
   });
 
+/**
+ * Verifies an authorization code and exchanges it for user information.
+ * @param oauthClient - Configured OAuth2Client instance
+ * @param authCode - Authorization code from Google OAuth flow
+ * @returns User data extracted from the ID token
+ * @throws UnauthorizedError if code validation or token verification fails
+ */
 export async function verifyAuthCode(
   oauthClient: OAuth2Client,
-  authCode: string
+  authCode: string,
 ): Promise<NewUser> {
-  const {
-    tokens: { id_token },
-  } = await oauthClient.getToken(authCode);
-  if (!id_token) throw new UnauthorizedError('Missing id token');
+  try {
+    if (!authCode?.trim())
+      throw new UnauthorizedError('Authorization code is missing or empty');
 
-  const ticket = await oauthClient.verifyIdToken({
-    idToken: id_token,
-    audience: config.googleClientId,
-  });
+    const {
+      tokens: { id_token },
+    } = await oauthClient.getToken(authCode);
+    if (!id_token) throw new UnauthorizedError('Missing id token');
 
-  const tokenPayload = ticket.getPayload();
+    const ticket = await oauthClient.verifyIdToken({
+      idToken: id_token,
+      audience: config.googleClientId,
+    });
 
-  if (!tokenPayload) throw new UnauthorizedError('Invalid token payload');
+    const tokenPayload = ticket.getPayload();
 
-  return {
-    googleId: tokenPayload.sub,
-    name: tokenPayload.name,
-    email: tokenPayload.email,
-    picture: tokenPayload.picture,
-  };
+    if (!tokenPayload) throw new UnauthorizedError('Invalid token payload');
+
+    return {
+      googleId: tokenPayload.sub,
+      name: tokenPayload.name ?? 'Unknown',
+      email: tokenPayload.email ?? '',
+      picture: tokenPayload.picture ?? '',
+    };
+  } catch (error) {
+    throw new UnauthorizedError(
+      `Token exchange failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
+  }
 }
