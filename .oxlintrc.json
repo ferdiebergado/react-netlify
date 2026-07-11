@@ -1,6 +1,5 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "oxc", "unicorn"],
   "options": {
     "typeAware": true
   },
@@ -21,6 +20,10 @@
       }
     },
     {
+      "files": ["./netlify/functions/**", "backend/**"],
+      "plugins": ["typescript", "oxc", "node", "unicorn"]
+    },
+    {
       "files": ["./netlify/edge-functions/**"],
       "plugins": ["typescript", "oxc", "import", "unicorn"],
       "rules": {
@@ -29,7 +32,7 @@
     },
     {
       "files": ["shared/**"],
-      "plugins": ["node", "unicorn"],
+      "plugins": ["unicorn", "typescript", "oxc"],
       "env": {
         "browser": false,
         "node": false
@@ -54,6 +57,10 @@
           }
         ]
       }
+    },
+    {
+      "files": ["**/*.{test|spec}.{ts,tsx}"],
+      "plugins": ["typescript", "oxc", "node", "unicorn", "vitest"]
     }
   ]
 }
