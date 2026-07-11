@@ -10,6 +10,7 @@ import {
 import { getBaseRequestContext } from '../../backend/http/utils.ts';
 import logger from '../../backend/logger.ts';
 import { bakeSessionCookie } from '../../backend/session/service.ts';
+import { clientRoutes } from '../../shared/routes.ts';
 
 async function handler(request: Request, context: Context): Promise<Response> {
   const { searchParams } = new URL(request.url);
@@ -17,11 +18,10 @@ async function handler(request: Request, context: Context): Promise<Response> {
   const state = searchParams.get('state');
 
   const savedState = context.cookies.get(OAUTH_STATE_COOKIE);
-
   context.cookies.delete(OAUTH_STATE_COOKIE);
 
   if (!authCode || !state || state !== savedState) {
-    const signinUrl = new URL(`${config.host}/signin`);
+    const signinUrl = new URL(`${config.host}${clientRoutes.signin}`);
     signinUrl.searchParams.set('error', 'Access denied.');
     logger.warn({
       ...getBaseRequestContext(request, context),

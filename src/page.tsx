@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import { Route, Switch } from 'wouter';
+import { clientRoutes } from '../shared/routes';
 import RequireGuest from './auth/components/require-guest';
 import SigninPage from './pages/signin-page';
 
@@ -11,7 +12,7 @@ export default function Page() {
   return (
     <Switch>
       {/* Public Routes */}
-      <Route path="/signin">
+      <Route path={clientRoutes.signin}>
         <RequireGuest>
           <SigninPage />
         </RequireGuest>
