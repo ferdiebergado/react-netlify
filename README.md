@@ -1,5 +1,7 @@
 # React Netlify App
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7f53f345-7ce5-4475-a5ea-5e7b5359551f/deploy-status)](https://app.netlify.com/projects/reactnetlifyts/deploys)
+
 A modern React + TypeScript application deployed on Netlify with serverless functions, edge middleware, and authentication flows. The project combines a Vite-powered frontend with a Netlify-native backend layer for API routes, sessions, and secure edge handling.
 
 ## Features
@@ -52,12 +54,34 @@ Copy the example environment file and set the required values before starting th
 cp .env.example .env
 ```
 
-Then edit [.env](.env) and fill in the required variables such as `APP_KEY`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `GOOGLE_REDIRECT_URI`.
+Then edit `.env` and fill in the required variables such as `APP_KEY`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `GOOGLE_REDIRECT_URI`.
+
+### Set up Google OAuth (web server)
+
+This app uses Google OAuth for authentication. For a web server setup, follow the official Google documentation:
+
+- Google OAuth documentation for web servers: https://developers.google.com/identity/protocols/oauth2/web-server
+
+1. Create or select a Google Cloud project.
+2. Configure the OAuth consent screen and add the authorized redirect URI:
+
+```text
+https://<your-site>.netlify.app/api/oauthcallback
+```
+
+3. Create OAuth 2.0 Client ID credentials and copy the client ID and client secret.
+4. Add them to your local `.env` file or Netlify environment variables:
+
+```bash
+GOOGLE_CLIENT_ID=<your-google-client-id>
+GOOGLE_CLIENT_SECRET=<your-google-client-secret>
+GOOGLE_REDIRECT_URI=https://<your-site>.netlify.app/api/oauthcallback
+```
 
 ### Set up the database
 
 ```bash
-pnpm run db:migrate
+pnpm db:migrate
 ```
 
 ### Start the development server
@@ -77,7 +101,7 @@ pnpm build
 ### Run type checks
 
 ```bash
-pnpm run typecheck
+pnpm typecheck
 ```
 
 ### Run tests
@@ -92,19 +116,11 @@ This project is designed to run on Netlify with the existing Vite frontend, Netl
 
 ### 1. Connect the repository
 
-- Create or open a site in Netlify.
+- Create or open a site in [Netlify](https://app.netlify.com/start).
 - Link the GitHub repository that contains this project.
 - Netlify will detect the Vite app automatically.
 
-### 2. Configure build settings
-
-Use these settings in the Netlify site configuration:
-
-- Build command: `pnpm build`
-- Publish directory: `dist`
-- Node version: `22`
-
-### 3. Add environment variables
+### 2. Add environment variables
 
 Set the following environment variables in Netlify Site Settings → Build & deploy → Environment:
 
@@ -119,11 +135,11 @@ APP_KEY=<a-long-random-secret>
 ENV=production
 ```
 
-### 4. Deploy
+### 3. Deploy
 
 Push to the connected branch and Netlify will build and deploy the app automatically.
 
-### 5. Post-deploy checks
+### 4. Post-deploy checks
 
 - Verify the site loads correctly.
 - Confirm OAuth callback and sign-in flows work with the production redirect URI.
@@ -133,7 +149,7 @@ Push to the connected branch and Netlify will build and deploy the app automatic
 
 This app can use a remote libSQL-compatible database such as Turso in production.
 
-1. Create a database in Turso (dashboard or CLI).
+1. Create a database in [Turso](https://turso.tech/) (dashboard or CLI).
 2. Copy the database URL and set it in your production environment:
 
 ```bash
