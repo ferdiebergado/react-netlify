@@ -8,7 +8,12 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "db:migrate": "sqlite3 local.db < init.sql",
+    "db": "sqlite3 -init .sqliterc local.db",
+    "db:reset": "rm -f local.db && pnpm run db:migrate",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
