@@ -17,26 +17,26 @@ function App() {
   const { reset } = useQueryErrorResetBoundary();
 
   return (
-    <ErrorBoundary
-      FallbackComponent={Fallback}
-      onError={(error, info) => {
-        console.error('Error caught by boundary:', error, info);
-        // TODO: Send to error tracking service
-      }}
-      onReset={reset}
-    >
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
+    <ThemeProvider>
+      <ErrorBoundary
+        FallbackComponent={Fallback}
+        onError={(error, info) => {
+          console.error('Error caught by boundary:', error, info);
+          // TODO: Send to error tracking service
+        }}
+        onReset={reset}
+      >
+        <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <Suspense fallback={<SplashScreen />}>
               <Page />
             </Suspense>
           </TooltipProvider>
           <Toaster position="top-right" richColors />
-        </ThemeProvider>
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </ErrorBoundary>
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      </ErrorBoundary>
+    </ThemeProvider>
   );
 }
 
