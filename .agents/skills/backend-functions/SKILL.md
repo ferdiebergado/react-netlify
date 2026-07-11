@@ -2,34 +2,34 @@
 
 Purpose: Guidance for editing and adding server-side code: Netlify Functions, Edge Functions, and backend helpers.
 
-Quick Commands
+Quick commands
 
-- Dev (local): `pnpm dev` — uses `netlify dev -c vite` to run functions and edge middleware locally.
-- Typecheck: `pnpm run typecheck` — runs `tsc -b` across referenced projects.
-- Build: `pnpm build` — runs `tsc -b && vite build` (functions are transpiled via tsc).
+- `pnpm dev` — run functions and edge middleware locally through Netlify Dev.
+- `pnpm run typecheck` — validate the backend and edge TypeScript targets.
+- `pnpm build` — run the shared build flow for the repository.
 
 Where to look
 
-- Netlify Functions (Node): [netlify/functions](netlify/functions) — handlers exported for Netlify.
-- Edge middleware: [netlify/edge-functions](netlify/edge-functions) — lightweight edge handlers and shared edge utils.
-- Backend helpers and services: [backend](backend) — DB setup, auth repos, session services.
-- Shared types & schemas: [shared](shared) — types consumed by functions and frontend.
-- Netlify config: [netlify.toml](netlify.toml) — routing, edge functions mapping, and headers.
+- Start with [README.md](README.md) for setup, Google OAuth, Turso/libSQL, and deployment details.
+- Netlify Functions (Node): [netlify/functions](netlify/functions).
+- Edge middleware: [netlify/edge-functions](netlify/edge-functions).
+- Backend helpers and services: [backend](backend).
+- Shared types and schemas: [shared](shared).
+- Netlify config: [netlify.toml](netlify.toml).
 
-TypeScript & runtime notes
+TypeScript and runtime notes
 
-- Use `tsconfig.backend.json` for Node-targeted functions and `tsconfig.edge.json` for edge code.
-- Functions run under Node (Netlify Functions) or Edge runtime (V8-like). Avoid using Node-only APIs in edge code.
-- When adding a function: create a new file in `netlify/functions/`, export a handler matching existing files, and add any required env var docs.
+- Use [tsconfig.backend.json](tsconfig.backend.json) for Node-targeted functions and [tsconfig.edge.json](tsconfig.edge.json) for edge code.
+- Functions run under Node or the edge runtime; avoid Node-only APIs in edge code.
+- When adding a function, create a new file in [netlify/functions](netlify/functions) and keep the export shape consistent with existing handlers.
 
-Secrets & environment
+Environment and data notes
 
-- Local dev requires env vars used by `backend` (DB, OAuth client IDs). Don't store secrets in repo; document required vars in a local `.env.example` if needed.
+- Local development depends on values from [.env.example](.env.example) and [.env](.env).
+- Production may use Turso/libSQL via [backend/config.ts](backend/config.ts); local development can also use a file-based SQLite URL.
+- OAuth and session behavior span [netlify/functions/oauthcallback.ts](netlify/functions/oauthcallback.ts), [netlify/functions/signin.ts](netlify/functions/signin.ts), and [netlify/edge-functions/session.ts](netlify/edge-functions/session.ts).
 
-Conventions & tips for agents
+Conventions and tips
 
-- Prefer small, focused PRs for function changes (single responsibility per function).
-- Run `pnpm run typecheck` before submitting changes; include minimal tests where practical.
-- Link to `backend/auth` and `netlify/edge-functions/session.ts` for auth/session flow context.
-
-If you want, I can also scaffold a function template and a checklist for adding new functions (tsconfig, export, tests, documentation).
+- Keep changes small and focused on one runtime boundary at a time.
+- Run `pnpm run typecheck` before submitting changes and add tests where practical.

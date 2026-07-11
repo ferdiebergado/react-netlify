@@ -1,52 +1,37 @@
 # AGENTS — Project instructions for AI coding agents
 
-Purpose: Give AI coding agents the minimal, actionable knowledge to be productive in this repo.
+Purpose: Help coding agents work effectively in this repository without duplicating the existing docs.
 
-Quick Commands
+Quick commands
 
-- dev: `pnpm dev` — runs Netlify Dev with Vite locally (`netlify dev -c vite`).
-- build: `pnpm build` — runs `tsc -b` then `vite build`.
-- preview: `pnpm preview` — `vite preview` to inspect production output.
-- typecheck: `pnpm run typecheck` — runs `tsc -b`.
-- lint: `pnpm run lint` — run repository lint rules.
+- `pnpm dev` — run the app locally through Netlify Dev.
+- `pnpm build` — run TypeScript builds and Vite production build.
+- `pnpm run typecheck` — run the referenced TypeScript projects.
+- `pnpm test` — run the Vitest suite.
+- `pnpm run db:migrate` — initialize the local database from [init.sql](init.sql).
 
-Where code lives (important entry points)
+Key docs to read first
 
-- Frontend app: [src](src) — React + Vite UI, pages and components.
-- Serverless functions: [netlify/functions](netlify/functions) — Netlify Functions (Node).
-- Edge middleware: [netlify/edge-functions](netlify/edge-functions) — Netlify Edge Functions.
-- Backend helpers: [backend](backend) — DB, auth services used by functions.
-- Shared types/schemas: [shared](shared) — cross-target types and validation.
+- [README.md](README.md) — setup steps, Google OAuth, Turso/libSQL guidance, and Netlify deployment notes.
+- [.env.example](.env.example) — required environment variables.
+- [netlify.toml](netlify.toml) — redirects, edge-function mappings, and headers.
 
-TypeScript configuration
+Architecture at a glance
 
-This repo uses project-referenced tsconfig setup. Key configs:
+- Frontend: [src](src) for React/Vite pages, components, hooks, and theme code.
+- Functions: [netlify/functions](netlify/functions) for Netlify Functions.
+- Edge: [netlify/edge-functions](netlify/edge-functions) for session, CSRF, JSON, and CSP middleware.
+- Backend: [backend](backend) for auth, database access, and shared services.
+- Shared: [shared](shared) for cross-target types and schemas.
 
-- [tsconfig.json](tsconfig.json) — root project references.
-- [tsconfig.app.json](tsconfig.app.json) — frontend/Vite target.
-- [tsconfig.backend.json](tsconfig.backend.json) — node/functions target.
-- [tsconfig.edge.json](tsconfig.edge.json) — edge functions target.
+Conventions
 
-Netlify notes
+- Prefer small, focused changes and keep the runtime target in mind: browser, Node, or edge.
+- Link to the existing docs instead of copying large sections into new instructions.
+- Run `pnpm run typecheck` after TypeScript changes.
+- Local development requires values from [.env](.env); production may use Turso/libSQL plus Google OAuth.
 
-- See [netlify.toml](netlify.toml) for redirects, edge function mappings, and security headers.
-- `netlify dev` is used in local development; ensure `netlify-cli` is installed.
+Common areas to inspect
 
-Agent conventions & guidance
-
-- Link, don't copy: Prefer linking to existing docs and code. Avoid duplicating large docs.
-- Minimal changes: When modifying files, make small, focused edits consistent with existing style.
-- Typecheck first: Run `pnpm run typecheck` before builds.
-- Targets: Remember there are three runtime targets — browser (frontend), Node (functions), Edge (edge-functions). Use the matching tsconfig when reasoning about runtime APIs.
-
-Common places to check for behavior
-
-- Auth flows: `backend/auth`, `netlify/functions/*`, and `netlify/edge-functions/session.ts`.
-- DB/test helpers: `tests` and `backend/db.ts`.
-
-Suggested next customizations (optional)
-
-- Frontend agent skill: shortcuts for common UI edits, component patterns in `src/components`.
-- Backend/functions skill: steps for adding a Netlify Function and wiring tsconfig and exports.
-
-If you'd like, I can also add a `.github/copilot-instructions.md` variant or create the frontend/backend agent skills next.
+- Auth flow: [backend/auth](backend/auth), [netlify/functions/signin.ts](netlify/functions/signin.ts), [netlify/functions/oauthcallback.ts](netlify/functions/oauthcallback.ts), and [netlify/edge-functions/session.ts](netlify/edge-functions/session.ts).
+- Database access: [backend/db.ts](backend/db.ts) and [tests/db.ts](tests/db.ts).
