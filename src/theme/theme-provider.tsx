@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ThemeProviderContext, type Theme } from '.';
+import { ThemeProviderContext, type Theme } from './hooks';
 
 type ThemeProviderProps = {
   children: React.ReactNode;
@@ -14,7 +14,7 @@ export default function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
   );
 
   useEffect(() => {
@@ -22,7 +22,8 @@ export default function ThemeProvider({
     const mediaQuery = globalThis.matchMedia('(prefers-color-scheme: dark)');
 
     const updateTheme = () => {
-      const isDark = theme === 'dark' || (theme === 'system' && mediaQuery.matches);
+      const isDark =
+        theme === 'dark' || (theme === 'system' && mediaQuery.matches);
       root.classList.toggle('dark', isDark);
     };
 

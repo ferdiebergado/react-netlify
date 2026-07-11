@@ -1,24 +1,6 @@
-import { createContext, useContext } from 'react';
-
-export type Theme = 'dark' | 'light' | 'system';
-
-type ThemeProviderState = {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-};
-
-const initialState: ThemeProviderState = {
-  theme: 'system',
-  // eslint-disable-next-line unicorn/no-null
-  setTheme: () => null,
-};
-
-export const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
-
-export const useTheme = () => {
-  const context = useContext(ThemeProviderContext);
-
-  if (context === undefined) throw new Error('useTheme must be used within a ThemeProvider');
-
-  return context;
-};
+(() => {
+  const theme = localStorage.getItem('vite-ui-theme') || 'system';
+  const mql = matchMedia('(prefers-color-scheme: dark)');
+  const isDark = theme === 'dark' || (theme === 'system' && mql.matches);
+  document.documentElement.classList.toggle('dark', isDark);
+})();

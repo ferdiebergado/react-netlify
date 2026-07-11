@@ -6,7 +6,7 @@ import {
   XCircleIcon,
 } from '@phosphor-icons/react';
 import { Toaster as Sonner, type ToasterProps } from 'sonner';
-import { useTheme } from '../../theme';
+import { useTheme } from '../../theme/hooks';
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme } = useTheme();
