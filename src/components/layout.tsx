@@ -28,6 +28,11 @@ export default function Layout({ children }: LayoutProps) {
         <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <Suspense fallback={<SkeletonCard />}>{children}</Suspense>
         </main>
+        <footer className="flex h-16 shrink-0 items-center justify-center gap-2 px-4">
+          <p className="text-muted-foreground text-sm">
+            &copy; 2026 to present by {import.meta.env.VITE_APP_DEVELOPER}.
+          </p>
+        </footer>
       </SidebarInset>
     </SidebarProvider>
   );
