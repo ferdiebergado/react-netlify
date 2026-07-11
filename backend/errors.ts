@@ -39,7 +39,7 @@ export class ValidationError extends AppError {
     issues?: {
       path: string;
       message: string;
-    }[]
+    }[],
   ) {
     super({
       message,
@@ -115,7 +115,7 @@ export class MethodNotAllowedError extends AppError {
     super({
       message,
       statusCode: 405,
-      code: ERROR_CODES.SERVICE_UNAVAILABLE,
+      code: ERROR_CODES.METHOD_NOT_ALLOWED,
     });
   }
 }
@@ -123,9 +123,9 @@ export class MethodNotAllowedError extends AppError {
 export function fromZodError(error: ZodError) {
   return new ValidationError(
     'Validation failed',
-    error.issues.map(issue => ({
+    error.issues.map((issue) => ({
       path: issue.path.join('.'),
       message: issue.message,
-    }))
+    })),
   );
 }

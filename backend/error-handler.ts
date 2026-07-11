@@ -1,5 +1,6 @@
 import type { UnknownRecord } from 'type-fest';
-import type { ApiErrorResponse } from '../shared/types.ts';
+import { ERROR_CODES, type ApiErrorResponse } from '../shared/types.ts';
+import config from './config.ts';
 import { AppError, ValidationError } from './errors.ts';
 import type { RequestContext } from './http/types.ts';
 import logger from './logger.ts';
@@ -28,13 +29,15 @@ export function handleError(error: unknown, context: RequestContext): Response {
   const body: ApiErrorResponse = {
     success: false,
     error: {
-      code: 'INTERNAL_SERVER_ERROR',
+      code: ERROR_CODES.INTERNAL_SERVER_ERROR,
       message:
-        process.env.NODE_ENV === 'production'
-          ? 'Something went wrong'
-          : error instanceof Error
-            ? error.message
-            : 'Unknown error',
+        error instanceof ValidationError
+          ? error.message
+          : config.env === 'production'
+            ? 'Something went wrong'
+            : error instanceof Error
+              ? error.message
+              : 'Unknown error',
       requestId,
     },
   };
