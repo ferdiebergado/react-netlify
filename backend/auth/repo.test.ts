@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { NewUser, User } from '../../shared/schemas/user.ts';
 import { createTestDB } from '../../tests/db.ts';
+import { getTimeDiffMs } from '../../tests/utils.ts';
 import type { Database } from '../db.ts';
 import findUser, { upsertUser } from './repo.ts';
 
@@ -39,9 +40,7 @@ describe('auth repo', () => {
       expect(createdUser.name).toEqual(user.name);
       expect(createdUser.email).toEqual(user.email);
       expect(createdUser.picture).toEqual(user.picture);
-      const timeDiffMs = Math.abs(
-        new Date(createdUser.lastLoginAt).getTime() - new Date().getTime(),
-      );
+      const timeDiffMs = getTimeDiffMs(createdUser.lastLoginAt);
       expect(timeDiffMs).toBeLessThan(1000);
     });
 
@@ -65,9 +64,7 @@ describe('auth repo', () => {
         expect(createdUser.name).toEqual(user.name);
         expect(createdUser.email).toEqual(user.email);
         expect(createdUser.picture).toEqual(userUpdate.picture);
-        const timeDiffMs = Math.abs(
-          new Date(createdUser.lastLoginAt).getTime() - new Date().getTime(),
-        );
+        const timeDiffMs = getTimeDiffMs(createdUser.lastLoginAt);
         expect(timeDiffMs).toBeLessThan(1000);
       } finally {
         vi.useRealTimers();
@@ -91,9 +88,7 @@ describe('auth repo', () => {
       expect(foundUser!.name).toEqual(user.name);
       expect(foundUser!.email).toEqual(user.email);
       expect(foundUser!.picture).toEqual(user.picture);
-      const timeDiffMs = Math.abs(
-        new Date(foundUser!.lastLoginAt).getTime() - new Date().getTime(),
-      );
+      const timeDiffMs = getTimeDiffMs(foundUser!.lastLoginAt);
       expect(timeDiffMs).toBeLessThan(1000); // Within 1 second
     });
 
