@@ -2,7 +2,6 @@ import {
   QueryClientProvider,
   useQueryErrorResetBoundary,
 } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import SplashScreen from './components/splash-screen';
@@ -33,7 +32,6 @@ function App() {
             </Suspense>
           </TooltipProvider>
           <Toaster position="top-right" richColors />
-          <ReactQueryDevtools />
         </QueryClientProvider>
       </ErrorBoundary>
     </ThemeProvider>
