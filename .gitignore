@@ -31,3 +31,11 @@ dist-ssr
 local.db
 
 deno.lock
+
+# Vitest cache and artifacts
+.vitest/
+.vitest-attachments/
+**/__screenshots__/**
+
+# Code coverage reports
+coverage/
