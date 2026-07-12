@@ -33,6 +33,7 @@ export default defineConfig(({ mode }) => {
           },
         },
         {
+          extends: true,
           test: {
             name: 'browser',
             include: ['./**/*.{test,spec}.tsx'],
