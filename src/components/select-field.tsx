@@ -21,6 +21,9 @@ interface SelectFieldProps<TFieldValues extends FieldValues, TItem> {
   /** Placeholder text when no item is selected */
   placeholder?: string;
 
+  /** Styles for the form field */
+  className?: string;
+
   /** React Hook Form field object */
   control: Control<TFieldValues>;
 
@@ -45,6 +48,7 @@ export default function SelectField<TFieldValues extends FieldValues, TItem>(
     label,
     description,
     placeholder = 'Select an item...',
+    className,
     control,
     items,
     itemToLabel,
@@ -58,6 +62,7 @@ export default function SelectField<TFieldValues extends FieldValues, TItem>(
       label={label}
       description={description}
       control={control}
+      className={className}
     >
       {({ field, fieldState }) => {
         const handleValueChange = (nextValue: string | null) => {
@@ -84,7 +89,6 @@ export default function SelectField<TFieldValues extends FieldValues, TItem>(
             <SelectTrigger
               id={field.name}
               aria-invalid={fieldState.invalid}
-              className="w-full"
               disabled={isLoading}
             >
               <SelectValue

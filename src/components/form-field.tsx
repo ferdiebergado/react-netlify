@@ -19,6 +19,9 @@ interface FormFieldProps<TFieldValues extends FieldValues> {
   /** Description for the form field */
   description?: string;
 
+  /** Styles for the form field */
+  className?: string;
+
   /** React Hook Form field object */
   control: Control<TFieldValues>;
 
@@ -33,6 +36,7 @@ export default function FormField<TFieldValues extends FieldValues>({
   name,
   label,
   description,
+  className,
   control,
   children,
 }: FormFieldProps<TFieldValues>) {
@@ -41,7 +45,7 @@ export default function FormField<TFieldValues extends FieldValues>({
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Field data-invalid={fieldState.invalid}>
+        <Field className={className} data-invalid={fieldState.invalid}>
           <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
           {children({ field, fieldState })}
           {description && <FieldDescription>{description}</FieldDescription>}
