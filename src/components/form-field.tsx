@@ -1,18 +1,17 @@
 import type { ReactNode } from 'react';
 import {
-  Controller,
-  type Control,
+  useController,
   type ControllerFieldState,
   type ControllerRenderProps,
   type FieldValues,
   type Path,
+  type UseControllerProps,
 } from 'react-hook-form';
 import { Field, FieldDescription, FieldError, FieldLabel } from './ui/field';
 
-interface FormFieldProps<TFieldValues extends FieldValues> {
-  /** Name of the form field */
-  name: Path<TFieldValues>;
-
+interface FormFieldProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends UseControllerProps<TFieldValues> {
   /** Label for the form field */
   label: string;
 
@@ -22,9 +21,6 @@ interface FormFieldProps<TFieldValues extends FieldValues> {
   /** Styles for the form field */
   className?: string;
 
-  /** React Hook Form field object */
-  control: Control<TFieldValues>;
-
   /** Children elements to render inside the form control */
   children: (props: {
     field: ControllerRenderProps<TFieldValues, Path<TFieldValues>>;
@@ -32,26 +28,17 @@ interface FormFieldProps<TFieldValues extends FieldValues> {
   }) => ReactNode;
 }
 
-export default function FormField<TFieldValues extends FieldValues>({
-  name,
-  label,
-  description,
-  className,
-  control,
-  children,
-}: FormFieldProps<TFieldValues>) {
+export default function FormField<
+  TFieldValues extends FieldValues = FieldValues,
+>(props: FormFieldProps<TFieldValues>) {
+  const { field, fieldState } = useController(props);
+  const { className, label, description, children } = props;
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field, fieldState }) => (
-        <Field className={className} data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-          {children({ field, fieldState })}
-          {description && <FieldDescription>{description}</FieldDescription>}
-          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-        </Field>
-      )}
-    />
+    <Field className={className} data-invalid={fieldState.invalid}>
+      <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+      {children({ field, fieldState })}
+      {description && <FieldDescription>{description}</FieldDescription>}
+      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+    </Field>
   );
 }
