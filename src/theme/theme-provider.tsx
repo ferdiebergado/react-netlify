@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { updateTheme } from '.';
 import { ThemeProviderContext, type Theme } from './hooks';
 
 type ThemeProviderProps = {
@@ -18,23 +19,16 @@ export default function ThemeProvider({
   );
 
   useEffect(() => {
-    const root = globalThis.document.documentElement;
-    const mediaQuery = globalThis.matchMedia('(prefers-color-scheme: dark)');
+    updateTheme(theme);
 
-    const updateTheme = () => {
-      const isDark =
-        theme === 'dark' || (theme === 'system' && mediaQuery.matches);
-      root.classList.toggle('dark', isDark);
-    };
-
-    updateTheme();
-
+    const mql = matchMedia('(prefers-color-scheme: dark)');
     const event = 'change';
+    const handleMql = () => updateTheme(theme);
 
-    mediaQuery.addEventListener(event, updateTheme);
+    mql.addEventListener(event, handleMql);
 
     return () => {
-      mediaQuery.removeEventListener(event, updateTheme);
+      mql.removeEventListener(event, handleMql);
     };
   }, [theme]);
 
