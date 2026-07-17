@@ -1,5 +1,5 @@
-import { type Control, type FieldValues, type Path } from 'react-hook-form';
-import FormField from './form-field';
+import { type FieldValues } from 'react-hook-form';
+import FormField, { type FormFieldProps } from './form-field';
 import {
   Select,
   SelectContent,
@@ -8,25 +8,10 @@ import {
   SelectValue,
 } from './ui/select';
 
-interface SelectFieldProps<TFieldValues extends FieldValues, TItem> {
-  /** Name of the select field */
-  name: Path<TFieldValues>;
-
-  /** Label for the select field */
-  label: string;
-
-  /** Description for the select field */
-  description?: string;
-
-  /** Placeholder text when no item is selected */
-  placeholder?: string;
-
-  /** Styles for the form field */
-  className?: string;
-
-  /** React Hook Form field object */
-  control: Control<TFieldValues>;
-
+interface SelectFieldProps<
+  TFieldValues extends FieldValues,
+  TItem,
+> extends FormFieldProps<TFieldValues> {
   /** Array of items to display in the select */
   items: TItem[];
 
@@ -35,6 +20,9 @@ interface SelectFieldProps<TFieldValues extends FieldValues, TItem> {
 
   /** Function to extract the value from an item */
   itemToValue: (item: TItem) => string;
+
+  /** Placeholder text when no item is selected */
+  placeholder?: string;
 
   /** Whether the select is currently loading data */
   isLoading?: boolean;
