@@ -5,15 +5,16 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import type { ReactNode } from 'react';
 import { Link, useLocation } from 'wouter';
 
-export function NavProjects({
-  projects,
+export default function NavMain({
+  links,
 }: {
-  projects: {
+  links: {
     name: string;
     url: string;
-    icon: React.ReactNode;
+    icon: ReactNode;
   }[];
 }) {
   const [location] = useLocation();
@@ -22,7 +23,7 @@ export function NavProjects({
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>MAIN NAVIGATION</SidebarGroupLabel>
       <SidebarMenu>
-        {projects.map((item) => (
+        {links.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton
               render={<Link href={item.url} />}

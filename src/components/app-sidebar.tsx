@@ -1,7 +1,4 @@
-import { CommandIcon, SpeedometerIcon } from '@phosphor-icons/react';
-import * as React from 'react';
-
-import { NavProjects } from '@/components/nav-projects';
+import NavMain from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
@@ -12,18 +9,19 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { CommandIcon, SpeedometerIcon } from '@phosphor-icons/react';
+import type { ComponentProps } from 'react';
 import { useCurrentUser } from '../auth/hooks';
 
-const data = {
-  projects: [
-    {
-      name: 'Dashboard',
-      url: '/',
-      icon: <SpeedometerIcon />,
-    },
-  ],
-};
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+const links = [
+  {
+    name: 'Dashboard',
+    url: '/',
+    icon: <SpeedometerIcon />,
+  },
+];
+
+export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
   const { data: currentUser } = useCurrentUser();
 
   return (
@@ -44,7 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects projects={data.projects} />
+        <NavMain links={links} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={currentUser!} />
