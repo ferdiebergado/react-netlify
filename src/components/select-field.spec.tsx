@@ -114,10 +114,10 @@ describe('SelectField', () => {
     await getByRole('combobox', { name: label }).click();
 
     await expect
-      .element(getByRole('option', { name: /Alpha/ }))
+      .element(getByRole('option', { name: items[0].label }))
       .toBeInTheDocument();
     await expect
-      .element(getByRole('option', { name: /Beta/ }))
+      .element(getByRole('option', { name: items[1].label }))
       .toBeInTheDocument();
   });
 
@@ -140,8 +140,8 @@ describe('SelectField', () => {
 
     const selectField = getByRole('combobox', { name: label });
     await selectField.click();
-    await getByRole('option', { name: /Beta/ }).click();
-    await expect.element(selectField).toHaveTextContent('Beta');
+    await getByRole('option', { name: items[1].label }).click();
+    await expect.element(selectField).toHaveTextContent(items[1].label);
   });
 
   it('calls field.onChange when an item is selected', async () => {
@@ -164,7 +164,7 @@ describe('SelectField', () => {
     );
 
     await getByRole('combobox', { name: label }).click();
-    await getByRole('option', { name: /Beta/ }).click();
+    await getByRole('option', { name: items[1].label }).click();
 
     expect(onChange).toHaveBeenCalledWith('beta');
   });
@@ -185,7 +185,7 @@ describe('SelectField', () => {
       </TestFormWrapper>,
     );
 
-    await getByRole('button', { name: /Submit/ }).click();
+    await getByRole('button', { name: 'Submit' }).click();
 
     await expect
       .element(getByText(/Please select a status/))
