@@ -4,15 +4,15 @@ import {
 } from '@tanstack/react-query';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import SplashScreen from './components/splash-screen';
+import { SplashScreen } from './components/splash-screen';
 import { Toaster } from './components/ui/sonner';
 import { TooltipProvider } from './components/ui/tooltip';
 import { queryClient } from './lib/query-client';
-import Page from './page';
-import Fallback from './pages/fallback';
-import ThemeProvider from './theme/theme-provider';
+import { Page } from './page';
+import { Fallback } from './pages/fallback';
+import { ThemeProvider } from './theme/theme-provider';
 
-function App() {
+export function App() {
   const { reset } = useQueryErrorResetBoundary();
 
   return (
@@ -37,5 +37,3 @@ function App() {
     </ThemeProvider>
   );
 }
-
-export default App;

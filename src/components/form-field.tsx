@@ -36,7 +36,7 @@ interface FormFieldPropsWithChildren<
   }) => ReactNode;
 }
 
-export default function FormField<TFieldValues extends FieldValues>(
+export function FormField<TFieldValues extends FieldValues>(
   props: FormFieldPropsWithChildren<TFieldValues>,
 ) {
   const { field, fieldState } = useController(props);

@@ -6,13 +6,9 @@ import {
 } from '@/components/ui/sidebar';
 import { Suspense, type ReactNode } from 'react';
 import { ThemeMenu } from '../theme/theme-menu';
-import SkeletonCard from './skeleton-card';
+import { SkeletonCard } from './skeleton-card';
 
-type LayoutProps = {
-  children: ReactNode;
-};
-
-export default function Layout({ children }: LayoutProps) {
+export function Layout({ children }: { children: ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />

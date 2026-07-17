@@ -1,15 +1,15 @@
 import { Card, CardContent, CardHeader } from './ui/card';
 import { Skeleton } from './ui/skeleton';
 
-export default function SkeletonCard() {
+export function SkeletonCard() {
   return (
     <Card>
       <CardHeader>
-        <Skeleton className="w-50 h-7" />
-        <Skeleton className="w-60 h-6" />
+        <Skeleton className="h-7 w-50" />
+        <Skeleton className="h-6 w-60" />
       </CardHeader>
       <CardContent>
-        <Skeleton className="w-130 h-5" />
+        <Skeleton className="h-5 w-130" />
       </CardContent>
     </Card>
   );

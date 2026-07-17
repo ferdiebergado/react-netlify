@@ -1,13 +1,9 @@
-import PublicLayout from '@/components/public-layout';
+import { PublicLayout } from '@/components/public-layout';
 import type { ReactNode } from 'react';
 import { Redirect } from 'wouter';
 import { useCurrentUser } from '../hooks';
 
-type RequireGuestProps = {
-  children: ReactNode;
-};
-
-export default function RequireGuest({ children }: RequireGuestProps) {
+export function RequireGuest({ children }: { children: ReactNode }) {
   const { data: currentUser } = useCurrentUser();
 
   if (currentUser) return <Redirect to="/" replace />;

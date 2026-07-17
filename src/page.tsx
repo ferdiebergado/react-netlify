@@ -1,14 +1,22 @@
 import { lazy } from 'react';
 import { Route, Switch } from 'wouter';
 import { clientRoutes } from '../shared/routes';
-import RequireGuest from './auth/components/require-guest';
-import SigninPage from './pages/signin-page';
+import { RequireGuest } from './auth/components/require-guest';
+import { SigninPage } from './pages/signin-page';
 
-const RequireUser = lazy(() => import('./auth/components/require-user'));
-const Dashboard = lazy(() => import('./pages/dashboard'));
-const NotFound = lazy(() => import('./pages/not-found'));
+const RequireUser = lazy(() =>
+  import('./auth/components/require-user').then((m) => ({
+    default: m.RequireUser,
+  })),
+);
+const Dashboard = lazy(() =>
+  import('./pages/dashboard').then((m) => ({ default: m.Dashboard })),
+);
+const NotFound = lazy(() =>
+  import('./pages/not-found').then((m) => ({ default: m.PageNotFound })),
+);
 
-export default function Page() {
+export function Page() {
   return (
     <Switch>
       {/* Public Routes */}

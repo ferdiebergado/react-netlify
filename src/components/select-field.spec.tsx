@@ -4,7 +4,7 @@ import { useForm, type Control } from 'react-hook-form';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, render } from 'vitest-browser-react';
 import * as z from 'zod';
-import SelectField from './select-field';
+import { SelectField } from './select-field';
 
 const mockSchema = z.object({
   status: z.string().min(1, { message: 'Please select a status' }),

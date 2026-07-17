@@ -8,7 +8,7 @@ import {
 import type { ReactNode } from 'react';
 import { Link, useLocation } from 'wouter';
 
-export default function NavMain({
+export function NavMain({
   links,
 }: {
   links: {

@@ -1,4 +1,4 @@
-import NavMain from '@/components/nav-main';
+import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,

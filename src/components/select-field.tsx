@@ -1,5 +1,5 @@
 import { type FieldValues } from 'react-hook-form';
-import FormField, { type FormFieldProps } from './form-field';
+import { FormField, type FormFieldProps } from './form-field';
 import {
   Select,
   SelectContent,
@@ -28,7 +28,7 @@ interface SelectFieldProps<
   isLoading?: boolean;
 }
 
-export default function SelectField<TFieldValues extends FieldValues, TItem>(
+export function SelectField<TFieldValues extends FieldValues, TItem>(
   props: SelectFieldProps<TFieldValues, TItem>,
 ) {
   const {

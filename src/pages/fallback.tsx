@@ -1,6 +1,3 @@
-import { ArrowClockwiseIcon, ArrowsClockwiseIcon, WarningIcon } from '@phosphor-icons/react';
-import type { FallbackProps } from 'react-error-boundary';
-
 import { Button } from '@/components/ui/button';
 import {
   Empty,
@@ -10,19 +7,26 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '@/components/ui/empty';
+import {
+  ArrowClockwiseIcon,
+  ArrowsClockwiseIcon,
+  WarningIcon,
+} from '@phosphor-icons/react';
+import type { FallbackProps } from 'react-error-boundary';
 
-export default function Fallback({ resetErrorBoundary }: FallbackProps) {
+export function Fallback({ resetErrorBoundary }: FallbackProps) {
   return (
     <Empty className="flex h-dvh items-center justify-center border">
       <EmptyHeader>
         <EmptyMedia variant="icon" className="text-destructive">
-          <WarningIcon className="size-12 bg-background" />
+          <WarningIcon className="bg-background size-12" />
         </EmptyMedia>
         <EmptyTitle className="text-destructive text-xl font-semibold text-pretty">
           Something went wrong.
         </EmptyTitle>
         <EmptyDescription className="max-w-xs text-balance">
-          Please try again or reload the page. Contact support if the problem persists.
+          Please try again or reload the page. Contact support if the problem
+          persists.
         </EmptyDescription>
       </EmptyHeader>
       <EmptyContent className="flex-row justify-center gap-8">

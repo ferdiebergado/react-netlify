@@ -25,13 +25,9 @@ import {
 import { toast } from 'sonner';
 import type { Profile } from '../../shared/schemas/user';
 import { Spinner } from './ui/spinner';
-import UserAvatar from './user-avatar';
+import { UserAvatar } from './user-avatar';
 
-type NavUserProps = {
-  user: Profile;
-};
-
-export function NavUser({ user }: NavUserProps) {
+export function NavUser({ user }: { user: Profile }) {
   const { isMobile } = useSidebar();
   const { isPending, mutate: signout } = useSignout();
   const { name, picture, email } = user;

@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { updateTheme } from '.';
 import { ThemeProviderContext, type Theme } from './hooks';
 
-type ThemeProviderProps = {
+interface ThemeProviderProps {
   children: React.ReactNode;
   defaultTheme?: Theme;
   storageKey?: string;
-};
+}
 
-export default function ThemeProvider({
+export function ThemeProvider({
   children,
   defaultTheme = 'system',
   storageKey = 'vite-ui-theme',
