@@ -36,6 +36,21 @@ interface FormFieldPropsWithChildren<
   }) => ReactNode;
 }
 
+/**
+ * Wrapper around shadcn Field component with react-hook-form integration.
+ * Automatically handles field state, validation, and error display.
+ * It passes the field and fieldstate to the child component.
+ * @example
+    <FormField
+      name="username"
+      label="Username"
+      control={control}
+      className="w-full max-w-sm"
+      description="Your unique username"
+    >
+      {({ field }) => <Input {...field} {...inputProps} />}
+    </FormField>
+ */
 export function FormField<TFieldValues extends FieldValues>(
   props: FormFieldPropsWithChildren<TFieldValues>,
 ) {
