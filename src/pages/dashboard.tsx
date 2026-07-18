@@ -1,3 +1,4 @@
+import { ComboboxField } from '@/components/combobox-field';
 import { InputField } from '@/components/input-field';
 import { SelectField } from '@/components/select-field';
 import { TextareaField } from '@/components/textarea-field';
@@ -9,6 +10,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Field, FieldGroup } from '@/components/ui/field';
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from '@/components/ui/item';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -19,15 +27,21 @@ import * as z from 'zod';
 export function Dashboard() {
   const [searchParams] = useSearchParams();
 
+  const items = [
+    { label: 'Yaye', value: 'yaye' },
+    { label: 'Aremondeng', value: 'aremondeng' },
+  ];
+
   const schema = z.object({
     firstName: z.string().min(1, 'First name is required.'),
     status: z.string().min(1, 'Status is required'),
     venue: z.string(),
     date: z.iso.date(),
     comments: z.string(),
+    item: z.enum(['yaye', 'aremondeng']).nullish(),
   });
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
       firstName: '',
@@ -35,6 +49,7 @@ export function Dashboard() {
       status: '',
       date: '',
       comments: '',
+      item: null,
     },
   });
   useEffect(() => {
@@ -86,7 +101,36 @@ export function Dashboard() {
             label="Comments"
             className="w-full max-w-xs"
           />
-          <Button type="submit">Submit</Button>
+
+          <ComboboxField
+            control={control}
+            items={items}
+            name="item"
+            label="Item"
+            description="Items"
+            getItemValue={(item) => item.value}
+            getItemLabel={(item) => item.label}
+            className="w-full max-w-xs"
+            renderItem={(item) => (
+              <Item size="xs" className="p-0">
+                <ItemContent>
+                  <ItemTitle className="whitespace-nowrap">
+                    {item.label}
+                  </ItemTitle>
+                  <ItemDescription>{item.label}</ItemDescription>
+                </ItemContent>
+              </Item>
+            )}
+          />
+
+          <FieldGroup>
+            <Field orientation="horizontal">
+              <Button type="submit">Submit</Button>
+              <Button type="button" onClick={() => reset()}>
+                Clear
+              </Button>
+            </Field>
+          </FieldGroup>
         </form>
       </CardContent>
     </Card>
