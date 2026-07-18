@@ -6,6 +6,7 @@
   "overrides": [
     {
       "files": ["./src/**"],
+      "excludeFiles": ["./src/components/ui/**"],
       "plugins": ["react", "typescript", "oxc", "unicorn"],
       "rules": {
         "react/rules-of-hooks": "error",
