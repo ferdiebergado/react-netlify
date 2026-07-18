@@ -1,5 +1,6 @@
 import type { Context } from '@netlify/edge-functions';
 import { API_BASE_URL, SESSION } from '../../shared/constants.ts';
+import { clientRoutes } from '../../shared/routes.ts';
 import { ERROR_CODES, type ApiResponse } from '../../shared/types.ts';
 import { createRequestMetadata } from './_shared/utils.ts';
 
@@ -32,7 +33,7 @@ export default async (
     return Response.json(payload, { status: 401 });
   }
 
-  return Response.redirect('/signin');
+  return Response.redirect(clientRoutes.signin);
 };
 
 const isApiRequest = (pathname: string) =>
