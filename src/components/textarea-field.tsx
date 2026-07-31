@@ -6,7 +6,7 @@ import { Textarea } from './ui/textarea';
 
 export function TextareaField<TFieldValues extends FieldValues>(
   props: FormFieldProps<TFieldValues> &
-    Omit<ComponentProps<'textarea'>, 'className'>,
+    Omit<ComponentProps<'textarea'>, 'className' | 'name'>,
 ) {
   const { name, label, control, ...textAreaProps } = props;
 
