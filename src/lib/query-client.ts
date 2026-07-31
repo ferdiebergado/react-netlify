@@ -26,4 +26,4 @@ declare global {
   }
 }
 
-window.__TANSTACK_QUERY_CLIENT__ = queryClient;
+if (import.meta.env.DEV) window.__TANSTACK_QUERY_CLIENT__ = queryClient;
