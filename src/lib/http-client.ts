@@ -4,23 +4,31 @@ import { API_BASE_URL } from '../../shared/constants';
 import type { ApiResponse } from '../../shared/types';
 import { ApiError } from './errors';
 
+const JSON_CONTENT_TYPE = 'application/json';
+const JSON_HEADER = { 'Content-Type': JSON_CONTENT_TYPE };
 const DEFAULT_HEADERS = {
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
+  Accept: JSON_CONTENT_TYPE,
 };
 
+const host = import.meta.env.VITE_APP_HOST;
+if (!host) {
+  throw new Error(
+    'VITE_APP_HOST environment variable is not set. Please set it in your .env file.',
+  );
+}
+
 function buildUrl(path: string) {
-  const baseUrl = import.meta.env.VITE_APP_HOST + API_BASE_URL + '/';
+  const baseUrl = String(host) + API_BASE_URL + '/';
   const normalizedPath = path.startsWith('/') ? path.slice(1) : path;
   return new URL(normalizedPath, baseUrl).toString();
 }
 
-function mergeHeaders(init?: HeadersInit): Headers {
-  const headers = new Headers(init);
-  for (const [k, v] of Object.entries(DEFAULT_HEADERS)) {
-    if (!headers.has(k)) headers.set(k, v);
+function mergeHeaders(init?: HeadersInit, headers: HeadersInit = {}): Headers {
+  const mergedHeaders = new Headers(init);
+  for (const [k, v] of Object.entries(headers)) {
+    if (!mergedHeaders.has(k)) mergedHeaders.set(k, v);
   }
-  return headers;
+  return mergedHeaders;
 }
 
 const isApiResponse = <T = unknown>(
@@ -37,12 +45,12 @@ async function request<T>(
   options?: RequestInit,
 ): Promise<T | null> {
   const url = buildUrl(path);
+  const headers = mergeHeaders(options?.headers, DEFAULT_HEADERS);
 
   const init: RequestInit = {
     credentials: 'include',
     ...options,
-    // merge headers safely and preserve any Headers/Record provided by the caller
-    headers: mergeHeaders(options?.headers),
+    headers,
   };
 
   let res: Response;
@@ -111,7 +119,7 @@ export const api = {
     request<T>(path, {
       ...options,
       method: 'POST',
-      headers: mergeHeaders(options?.headers),
+      headers: mergeHeaders(options?.headers, JSON_HEADER),
       body: JSON.stringify(data ?? {}),
     }),
   put: <T>(
@@ -122,13 +130,12 @@ export const api = {
     request<T>(path, {
       ...options,
       method: 'PUT',
-      headers: mergeHeaders(options?.headers),
+      headers: mergeHeaders(options?.headers, JSON_HEADER),
       body: JSON.stringify(data),
     }),
   delete: <T>(path: string, options?: RequestInit): Promise<T | null> =>
     request<T>(path, {
       ...options,
       method: 'DELETE',
-      headers: mergeHeaders(options?.headers),
     }),
 };
