@@ -55,14 +55,14 @@ export function ComboboxField<TFieldValues extends FieldValues, TItem>({
     >
       {({ field, fieldState }) => {
         const selectedItem =
-          field.value == null
+          field.value === null
             ? null
             : (items.find(
                 (item) => getItemValue(item) === String(field.value),
               ) ?? null);
 
         const handleValueChange = (nextItem: TItem | null) => {
-          field.onChange(nextItem == null ? null : getItemValue(nextItem));
+          field.onChange(nextItem === null ? null : getItemValue(nextItem));
         };
 
         return (

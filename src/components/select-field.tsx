@@ -62,15 +62,14 @@ export function SelectField<TFieldValues extends FieldValues, TItem>(
         return (
           <Select
             name={field.name}
-            value={String(field.value ?? '')}
+            value={String(field.value)}
             onValueChange={handleValueChange}
             itemToStringLabel={(item) => {
-              const itemValue = String(item);
               const selectedItem = items.find(
-                (candidate) => itemToValue(candidate) === itemValue,
+                (candidate) => itemToValue(candidate) === item,
               );
 
-              return selectedItem ? itemToLabel(selectedItem) : itemValue;
+              return selectedItem ? itemToLabel(selectedItem) : item;
             }}
             disabled={isLoading}
           >

@@ -8,10 +8,13 @@ import { bakeCookie, type Cookie } from '../http/cookie.ts';
 import { createSession, findSession, touchSession } from './repo.ts';
 import type { NewSession, Session } from './types.ts';
 
-export async function startSession(db: Database, userId: EntityID): Promise<Session> {
+export async function startSession(
+  dbInstance: Database,
+  userId: EntityID,
+): Promise<Session> {
   const session = generateSession(userId);
 
-  return await createSession(db, session);
+  return await createSession(dbInstance, session);
 }
 
 export function generateSession(userId: User['id']): NewSession {
@@ -43,8 +46,15 @@ export async function getSession(req: Request): Promise<Session> {
 export const setExpiryDate = (minutes = SESSION.DURATION_MINUTES): string =>
   new Date(Date.now() + minutes * 60_000).toISOString();
 
-export function bakeSessionCookie(sessionId: string, expiresAt: string): Cookie {
-  const sessionCookie = bakeCookie(SESSION.COOKIE_NAME, sessionId, new Date(expiresAt));
+export function bakeSessionCookie(
+  sessionId: string,
+  expiresAt: string,
+): Cookie {
+  const sessionCookie = bakeCookie(
+    SESSION.COOKIE_NAME,
+    sessionId,
+    new Date(expiresAt),
+  );
   sessionCookie.httpOnly = true;
   return sessionCookie;
 }

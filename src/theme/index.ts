@@ -7,7 +7,6 @@ export function updateTheme(theme: Theme) {
 }
 
 export function loadTheme() {
-  const savedTheme =
-    (localStorage.getItem('vite-ui-theme') as Theme) || 'system';
-  updateTheme(savedTheme);
+  const savedTheme = localStorage.getItem('vite-ui-theme') || 'system';
+  updateTheme(savedTheme as Theme);
 }

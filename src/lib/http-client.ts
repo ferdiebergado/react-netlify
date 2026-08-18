@@ -31,10 +31,8 @@ function mergeHeaders(init?: HeadersInit, headers: HeadersInit = {}): Headers {
   return mergedHeaders;
 }
 
-const isApiResponse = <T = unknown>(
-  obj: UnknownRecord,
-): obj is ApiResponse<T> =>
-  Boolean(obj && typeof obj === 'object' && 'success' in obj);
+const isApiResponse = <T = unknown>(obj: unknown): obj is ApiResponse<T> =>
+  obj != null && typeof obj === 'object' && 'success' in obj;
 
 /**
  * Make a request to the API and parse the standardized ApiResponse<T>.
@@ -67,7 +65,7 @@ async function request<T>(
   if (res.status === 204) return null;
 
   const contentType = res.headers.get('content-type') ?? '';
-  let parsed: UnknownRecord;
+  let parsed: unknown;
   if (contentType.includes('application/json')) {
     try {
       parsed = await res.json();
@@ -87,7 +85,7 @@ async function request<T>(
 
   // If the service uses the ApiResponse<T> envelope, handle it. Otherwise, if status not ok throw.
   if (isApiResponse<T>(parsed)) {
-    const body = parsed as ApiResponse<T>;
+    const body = parsed;
     if (!body.success) {
       // Throw ApiError with the parsed body for richer diagnostics
       throw new ApiError(body, res.status);
@@ -104,8 +102,11 @@ async function request<T>(
     );
   }
 
-  // Best-effort: return parsed as T (non-envelope API)
-  return (parsed as T) ?? null;
+  // Best-effort: return parsed as T (non-envelope API).
+  // The caller specifies T; we have no schema-level guarantee that the JSON
+  // response actually matches T, so this assertion is intentionally unsafe.
+  // oxlint-disable-next-line no-unsafe-type-assertion
+  return parsed as T | null;
 }
 
 export const api = {

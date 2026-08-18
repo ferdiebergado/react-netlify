@@ -5,23 +5,23 @@ import { getTimeDiffMs } from '../../tests/utils.ts';
 import type { Database } from '../db.ts';
 import findUser, { upsertUser } from './repo.ts';
 
+const createMockUser = (overrides?: Partial<NewUser>): NewUser => ({
+  googleId: '123',
+  name: 'antonio',
+  email: 'antonio@example.com',
+  picture: 'https://antonio.example.com',
+  ...overrides,
+});
+
+const getUserFromDb = async (db: Database, userId: number): Promise<User> => {
+  const { rows } = await db.execute<User>(
+    'SELECT google_id googleId, name, email, picture, last_login_at lastLoginAt FROM users WHERE id = ? LIMIT 1',
+    [userId],
+  );
+  return rows[0];
+};
+
 describe('auth repo', () => {
-  const createMockUser = (overrides?: Partial<NewUser>): NewUser => ({
-    googleId: '123',
-    name: 'antonio',
-    email: 'antonio@example.com',
-    picture: 'https://antonio.example.com',
-    ...overrides,
-  });
-
-  const getUserFromDb = async (db: Database, userId: number): Promise<User> => {
-    const { rows } = await db.execute<User>(
-      'SELECT google_id googleId, name, email, picture, last_login_at lastLoginAt FROM users WHERE id = ? LIMIT 1',
-      [userId],
-    );
-    return rows[0];
-  };
-
   let db: Database;
 
   beforeEach(async () => (db = await createTestDB()));

@@ -24,22 +24,22 @@ import { toast } from 'sonner';
 import { useSearchParams } from 'wouter';
 import * as z from 'zod';
 
+const items = [
+  { label: 'Yaye', value: 'yaye' },
+  { label: 'Aremondeng', value: 'aremondeng' },
+];
+
+const schema = z.object({
+  firstName: z.string().min(1, 'First name is required.'),
+  status: z.string().min(1, 'Status is required'),
+  venue: z.string(),
+  date: z.iso.date(),
+  comments: z.string(),
+  item: z.enum(['yaye', 'aremondeng']).nullish(),
+});
+
 export function Dashboard() {
   const [searchParams] = useSearchParams();
-
-  const items = [
-    { label: 'Yaye', value: 'yaye' },
-    { label: 'Aremondeng', value: 'aremondeng' },
-  ];
-
-  const schema = z.object({
-    firstName: z.string().min(1, 'First name is required.'),
-    status: z.string().min(1, 'Status is required'),
-    venue: z.string(),
-    date: z.iso.date(),
-    comments: z.string(),
-    item: z.enum(['yaye', 'aremondeng']).nullish(),
-  });
 
   const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(schema),
@@ -47,11 +47,12 @@ export function Dashboard() {
       firstName: '',
       venue: '',
       status: '',
-      date: '',
+      date: new Date().toISOString(),
       comments: '',
       item: null,
     },
   });
+
   useEffect(() => {
     const msg = searchParams.get('success');
     if (msg) toast.success(msg);
@@ -88,6 +89,7 @@ export function Dashboard() {
             label="First Name"
             className="w-full max-w-xs"
           />
+
           <InputField
             type="date"
             control={control}
@@ -95,6 +97,7 @@ export function Dashboard() {
             label="Date"
             className="w-full max-w-xs"
           />
+
           <TextareaField
             control={control}
             name="comments"

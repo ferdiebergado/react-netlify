@@ -9,14 +9,14 @@ export const OAUTH_STATE_COOKIE = '__Host-oauth_state';
 const OAUTH_SCOPES = 'openid email profile';
 const OAUTH_PROMPT = 'consent';
 
-export const oauthClient = new OAuth2Client({
+export const oauth2Client = new OAuth2Client({
   clientId: config.googleClientId,
   clientSecret: config.googleClientSecret,
   redirectUri: config.googleRedirectUri,
 });
 
 export const generateAuthUrl = (state: string): string =>
-  oauthClient.generateAuthUrl({
+  oauth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: OAUTH_SCOPES,
     prompt: OAUTH_PROMPT,
