@@ -3,43 +3,76 @@
   "options": {
     "typeAware": true
   },
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "ignorePatterns": ["src/components/ui/**"],
   "overrides": [
     {
       "files": ["./src/**"],
-      "excludeFiles": ["./src/components/ui/**"],
-      "plugins": ["react", "typescript", "oxc", "unicorn"],
+      "excludeFiles": [
+        "./src/components/ui/**",
+        "**/*.test.{ts,tsx}",
+        "**/*.spec.{ts,tsx}"
+      ],
+      "plugins": [
+        "react",
+        "react-perf",
+        "import",
+        "jsx-a11y",
+        "typescript",
+        "oxc",
+        "unicorn"
+      ],
+      "env": {
+        "browser": true,
+        "node": false,
+        "builtins": true
+      },
       "rules": {
-        "react/rules-of-hooks": "error",
-        "react/only-export-components": [
-          "warn",
-          { "allowConstantExport": true }
-        ],
-        "react/exhaustive-deps": "error",
+        "react/jsx-no-duplicate-props": "error",
         "react/jsx-key": "error",
-        "react/no-array-index-key": "error",
-        "react/no-children-prop": "error"
+        "react/no-array-index-key": "warn",
+        "react-perf/jsx-no-jsx-as-prop": "warn"
       }
     },
     {
-      "files": ["./netlify/functions/**", "backend/**"],
-      "plugins": ["typescript", "oxc", "node", "unicorn"]
+      "files": ["./backend/**", "./netlify/functions/**"],
+      "excludeFiles": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"],
+      "plugins": ["typescript", "oxc", "node", "unicorn", "import"],
+      "env": {
+        "browser": false,
+        "node": true
+      },
+      "rules": {
+        "no-console": "off",
+        "import/no-cycle": "error",
+        "promise/always-return": "error"
+      }
     },
     {
       "files": ["./netlify/edge-functions/**"],
+      "excludeFiles": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"],
       "plugins": ["typescript", "oxc", "import", "unicorn"],
+      "env": {
+        "browser": false,
+        "node": false
+      },
       "rules": {
         "import/extensions": ["error", "always", { "ignorePackages": true }]
       }
     },
     {
       "files": ["shared/**"],
+      "excludeFiles": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"],
       "plugins": ["unicorn", "typescript", "oxc"],
       "env": {
         "browser": false,
         "node": false
       },
       "rules": {
-        "node/no-process-env": "error",
         "no-restricted-globals": [
           "error",
           "window",
@@ -60,8 +93,12 @@
       }
     },
     {
-      "files": ["**/*.{test|spec}.{ts,tsx}"],
-      "plugins": ["typescript", "oxc", "node", "unicorn", "vitest"]
+      "files": ["**/*.{test,spec}.{ts,tsx}"],
+      "plugins": ["typescript", "oxc", "node", "unicorn", "vitest"],
+      "env": {
+        "browser": true,
+        "node": true
+      }
     }
   ]
 }
