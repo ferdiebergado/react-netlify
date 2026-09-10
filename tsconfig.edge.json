@@ -9,7 +9,10 @@
 
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
 
-    "types": []
+    "types": [],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["netlify/edge-functions", "shared"]
+  "include": ["src/netlify/edge-functions", "src/shared"]
 }

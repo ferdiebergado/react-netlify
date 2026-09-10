@@ -12,7 +12,11 @@
     "noEmit": true,
     "skipLibCheck": true,
     "erasableSyntaxOnly": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["netlify/functions", "backend", "shared"]
+  "include": ["src/netlify/functions", "src/backend", "src/shared"]
 }

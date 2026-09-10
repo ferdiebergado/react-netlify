@@ -11,7 +11,7 @@
   "ignorePatterns": ["src/components/ui/**"],
   "overrides": [
     {
-      "files": ["./src/**"],
+      "files": ["./src/app/**"],
       "excludeFiles": [
         "./src/components/ui/**",
         "**/*.test.{ts,tsx}",
@@ -39,7 +39,7 @@
       }
     },
     {
-      "files": ["./backend/**", "./netlify/functions/**"],
+      "files": ["./src/backend/**", "./src/netlify/functions/**"],
       "excludeFiles": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"],
       "plugins": ["typescript", "oxc", "node", "unicorn", "import"],
       "env": {
@@ -53,7 +53,7 @@
       }
     },
     {
-      "files": ["./netlify/edge-functions/**"],
+      "files": ["./src/netlify/edge-functions/**"],
       "excludeFiles": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"],
       "plugins": ["typescript", "oxc", "import", "unicorn"],
       "env": {
@@ -65,7 +65,7 @@
       }
     },
     {
-      "files": ["shared/**"],
+      "files": ["./src/shared/**"],
       "excludeFiles": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"],
       "plugins": ["unicorn", "typescript", "oxc"],
       "env": {
