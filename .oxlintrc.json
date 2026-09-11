@@ -8,7 +8,7 @@
     "suspicious": "warn",
     "perf": "warn"
   },
-  "ignorePatterns": ["src/components/ui/**"],
+  "ignorePatterns": ["**/components/ui/**"],
   "overrides": [
     {
       "files": ["./src/app/**"],
