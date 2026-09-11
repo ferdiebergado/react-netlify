@@ -21,6 +21,8 @@ const links = [
   },
 ];
 
+const sidebarMenuLink = <a href="#" />;
+
 export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
   const { data: currentUser } = useCurrentUser();
 
@@ -29,7 +31,7 @@ export function AppSidebar(props: ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<a href="#" />}>
+            <SidebarMenuButton size="lg" render={sidebarMenuLink}>
               <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                 <CommandIcon className="size-4" />
               </div>

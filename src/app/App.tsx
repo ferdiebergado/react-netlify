@@ -12,6 +12,8 @@ import { queryClient } from './lib/query-client';
 import { Page } from './page';
 import { Fallback } from './pages/fallback';
 
+const fallback = <SplashScreen />;
+
 export function App() {
   const { reset } = useQueryErrorResetBoundary();
 
@@ -27,7 +29,7 @@ export function App() {
       >
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
-            <Suspense fallback={<SplashScreen />}>
+            <Suspense fallback={fallback}>
               <Page />
             </Suspense>
           </TooltipProvider>

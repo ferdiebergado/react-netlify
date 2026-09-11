@@ -9,20 +9,20 @@ import {
 } from '@/app/components/ui/dropdown-menu';
 import { useTheme } from './hooks';
 
+const themeMenuTrigger = (
+  <Button variant="ghost" size="icon">
+    <SunIcon className="h-[1.2rem] w-[1.2rem] transition-all dark:scale-0 dark:-rotate-90" />
+    <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] transition-all dark:scale-100 dark:rotate-0" />
+    <span className="sr-only">Toggle theme</span>
+  </Button>
+);
+
 export function ThemeMenu() {
   const { setTheme } = useTheme();
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button variant="ghost" size="icon">
-            <SunIcon className="h-[1.2rem] w-[1.2rem] transition-all dark:scale-0 dark:-rotate-90" />
-            <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] transition-all dark:scale-100 dark:rotate-0" />
-            <span className="sr-only">Toggle theme</span>
-          </Button>
-        }
-      />
+      <DropdownMenuTrigger render={themeMenuTrigger} />
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme('light')}>
           <SunIcon data-icon="inline-start" /> Light

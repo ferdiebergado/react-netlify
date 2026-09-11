@@ -27,6 +27,10 @@ import { toast } from 'sonner';
 import { Spinner } from './ui/spinner';
 import { UserAvatar } from './user-avatar';
 
+const sidebarMenuBtn = (
+  <SidebarMenuButton size="lg" className="aria-expanded:bg-muted" />
+);
+
 export function NavUser({ user }: { user: Profile }) {
   const { isMobile } = useSidebar();
   const { isPending, mutate: signout } = useSignout();
@@ -41,11 +45,7 @@ export function NavUser({ user }: { user: Profile }) {
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger
-            render={
-              <SidebarMenuButton size="lg" className="aria-expanded:bg-muted" />
-            }
-          >
+          <DropdownMenuTrigger render={sidebarMenuBtn}>
             <UserAvatar name={name} picture={picture} />
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-medium">{name}</span>

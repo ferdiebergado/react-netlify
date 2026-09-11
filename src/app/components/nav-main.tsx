@@ -8,6 +8,8 @@ import {
 import type { ReactNode } from 'react';
 import { Link, useLocation } from 'wouter';
 
+const sidebarMenuLink = (url: string) => <Link href={url} />;
+
 export function NavMain({
   links,
 }: {
@@ -26,7 +28,7 @@ export function NavMain({
         {links.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton
-              render={<Link href={item.url} />}
+              render={sidebarMenuLink(item.url)}
               isActive={location === item.url}
             >
               {item.icon}

@@ -17,6 +17,8 @@ const NotFound = lazy(() =>
   import('./pages/not-found').then((m) => ({ default: m.PageNotFound })),
 );
 
+const dashboardFallback = <SkeletonCard />;
+
 export function Page() {
   return (
     <Switch>
@@ -30,7 +32,7 @@ export function Page() {
       {/* Protected Routes */}
       <Route path="/">
         <RequireUser>
-          <Suspense fallback={<SkeletonCard />}>
+          <Suspense fallback={dashboardFallback}>
             <Dashboard />
           </Suspense>
         </RequireUser>
