@@ -53,7 +53,7 @@
       }
     },
     {
-      "files": ["./src/netlify/edge-functions/**"],
+      "files": ["**/netlify/edge-functions/**"],
       "excludeFiles": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"],
       "plugins": ["typescript", "oxc", "import", "unicorn"],
       "env": {
@@ -65,7 +65,7 @@
         "no-restricted-imports": [
           "error",
           {
-            "patterns": ["@/*"]
+            "patterns": ["@/shared/*", "**/@/*", "@/"]
           }
         ]
       }
