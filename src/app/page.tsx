@@ -1,6 +1,7 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { Route, Switch } from 'wouter';
 import { clientRoutes } from '../shared/routes';
+import { SkeletonCard } from './components/skeleton-card';
 import { RequireGuest } from './features/auth/components/require-guest';
 import { SigninPage } from './pages/signin-page';
 
@@ -29,7 +30,9 @@ export function Page() {
       {/* Protected Routes */}
       <Route path="/">
         <RequireUser>
-          <Dashboard />
+          <Suspense fallback={<SkeletonCard />}>
+            <Dashboard />
+          </Suspense>
         </RequireUser>
       </Route>
 

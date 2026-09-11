@@ -5,8 +5,7 @@ import {
   SidebarTrigger,
 } from '@/app/components/ui/sidebar';
 import { ThemeMenu } from '@/app/features/theme/theme-menu';
-import { Suspense, type ReactNode } from 'react';
-import { SkeletonCard } from './skeleton-card';
+import { type ReactNode } from 'react';
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -21,9 +20,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <ThemeMenu />
           </div>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <Suspense fallback={<SkeletonCard />}>{children}</Suspense>
-        </main>
+        <main className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</main>
         <footer className="flex h-16 shrink-0 items-center justify-center gap-2 px-4">
           <p className="text-muted-foreground text-sm">
             &copy; 2026 to present by {import.meta.env.VITE_APP_DEVELOPER}.
