@@ -1,5 +1,5 @@
-import { ERROR_CODES, type ApiResponse } from '@/shared/types.ts';
 import type { Config, Context } from '@netlify/edge-functions';
+import { ERROR_CODES, type ApiResponse } from '../../shared/types.ts';
 import { createRequestMetadata } from './_shared/utils.ts';
 
 export const config: Config = {
