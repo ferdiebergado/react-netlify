@@ -1,7 +1,7 @@
-import { API_BASE_URL, SESSION } from '@/shared/constants.ts';
-import { clientRoutes } from '@/shared/routes.ts';
-import { ERROR_CODES, type ApiResponse } from '@/shared/types.ts';
 import type { Context } from '@netlify/edge-functions';
+import { API_BASE_URL, SESSION } from '../../shared/constants.ts';
+import { clientRoutes } from '../../shared/routes.ts';
+import { ERROR_CODES, type ApiResponse } from '../../shared/types.ts';
 import { createRequestMetadata } from './_shared/utils.ts';
 
 export default async (
