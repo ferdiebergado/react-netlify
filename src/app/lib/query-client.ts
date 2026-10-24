@@ -26,4 +26,5 @@ declare global {
   }
 }
 
+// oxlint-disable-next-line no-underscore-dangle
 if (import.meta.env.DEV) window.__TANSTACK_QUERY_CLIENT__ = queryClient;
