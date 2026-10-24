@@ -1,4 +1,5 @@
 import { ERROR_CODES, type ApiResponse } from '@/shared/types.ts';
+import { db } from '../db.ts';
 import { handleError } from '../error-handler.ts';
 import logger from '../logger.ts';
 import { getSession } from '../session/service.ts';
@@ -43,7 +44,7 @@ export const logRequest: Middleware = (handler: NetlifyHandler) => {
 
 export const attachSession: Middleware = (handler: NetlifyHandler) => {
   return async (request, context) => {
-    const session = await getSession(request);
+    const session = await getSession(request, db);
     request.session = session;
     return await handler(request, context);
   };

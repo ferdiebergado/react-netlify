@@ -73,7 +73,30 @@ const baseCookie: Readonly<Omit<Cookie, 'name' | 'value'>> = {
   sameSite: 'Lax',
 };
 
-export function bakeCookie(name: string, value: string, expiresAt: Date): Cookie {
+export function getCookieValue(
+  cookieHeader: string | null,
+  name: string,
+): string | undefined {
+  if (!cookieHeader) return undefined;
+
+  let value: string | undefined;
+  for (const part of cookieHeader.split(';')) {
+    const separatorIndex = part.indexOf('=');
+    if (separatorIndex < 0 || part.slice(0, separatorIndex).trim() !== name)
+      continue;
+
+    if (value !== undefined) return undefined;
+    value = part.slice(separatorIndex + 1);
+  }
+
+  return value;
+}
+
+export function bakeCookie(
+  name: string,
+  value: string,
+  expiresAt: Date,
+): Cookie {
   const deltaMs = expiresAt.getTime() - Date.now();
   const maxAge = Math.max(0, Math.floor(deltaMs / 1000));
 

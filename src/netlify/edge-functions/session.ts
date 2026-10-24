@@ -10,17 +10,14 @@ export default async (
 ): Promise<Response> => {
   const sessionId = context.cookies.get(SESSION.COOKIE_NAME);
 
-  if (sessionId) {
-    request.headers.set(SESSION.HEADER_NAME, sessionId);
-    return await context.next();
-  }
+  if (sessionId) return await context.next();
 
   const msg = 'No session cookie';
   const meta = createRequestMetadata(context, request);
   console.warn(msg, meta);
 
   const url = new URL(request.url);
-  if (isApiRequest(url.pathname)) {
+  if (url.pathname.startsWith(`${API_BASE_URL}/`)) {
     const payload: ApiResponse = {
       success: false,
       error: {
@@ -33,8 +30,5 @@ export default async (
     return Response.json(payload, { status: 401 });
   }
 
-  return Response.redirect(clientRoutes.signin);
+  return Response.redirect(new URL(clientRoutes.signin, request.url));
 };
-
-const isApiRequest = (pathname: string) =>
-  pathname.startsWith(API_BASE_URL + '/');

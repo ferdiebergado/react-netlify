@@ -1,10 +1,10 @@
-import { SESSION } from '@/shared/constants.ts';
-import { type EntityID } from '@/shared/schemas/base.ts';
-import type { User } from '@/shared/schemas/user.ts';
+import { SESSION } from '../../shared/constants.ts';
+import { type EntityID } from '../../shared/schemas/base.ts';
+import type { User } from '../../shared/schemas/user.ts';
 import { randomBytes } from 'crypto';
-import { db, type Database } from '../db.ts';
+import type { Database } from '../db.ts';
 import { UnauthorizedError } from '../errors.ts';
-import { bakeCookie, type Cookie } from '../http/cookie.ts';
+import { bakeCookie, getCookieValue, type Cookie } from '../http/cookie.ts';
 import { createSession, findSession, touchSession } from './repo.ts';
 import type { NewSession, Session } from './types.ts';
 
@@ -28,17 +28,23 @@ export function generateSession(userId: User['id']): NewSession {
   };
 }
 
-export async function getSession(req: Request): Promise<Session> {
-  const sessionId = req.headers.get(SESSION.HEADER_NAME);
-  if (!sessionId) throw new UnauthorizedError('no session ID provided');
+export async function getSession(
+  req: Request,
+  dbInstance: Database,
+): Promise<Session> {
+  const sessionId = getCookieValue(
+    req.headers.get('cookie'),
+    SESSION.COOKIE_NAME,
+  );
+  if (!sessionId) throw new UnauthorizedError('no session cookie provided');
 
-  const session = await findSession(db, sessionId);
+  const session = await findSession(dbInstance, sessionId);
   if (!session) throw new UnauthorizedError('session not found');
 
   const lastActiveTime = new Date(session.lastActiveAt).getTime();
   const elapsedTime = Date.now() - lastActiveTime;
   const minuteMs = 1000 * 60;
-  if (elapsedTime > minuteMs) await touchSession(db, sessionId);
+  if (elapsedTime > minuteMs) await touchSession(dbInstance, sessionId);
 
   return session;
 }
