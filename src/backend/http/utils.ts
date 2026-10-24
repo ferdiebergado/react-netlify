@@ -1,5 +1,5 @@
 import type { Context } from '@netlify/functions';
-import type { HttpMethod, RequestContext } from './types.ts';
+import type { RequestContext } from './types.ts';
 
 export const getBaseRequestContext = (
   req: Request,
@@ -7,7 +7,7 @@ export const getBaseRequestContext = (
 ): RequestContext => ({
   timestamp: new Date().toISOString(),
   requestId: ctx.requestId,
-  method: req.method as HttpMethod,
+  method: req.method,
   path: req.url,
 });
 

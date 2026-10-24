@@ -52,7 +52,7 @@ export const attachSession: Middleware = (handler: NetlifyHandler) => {
 export const checkMethod: Middleware<[HttpMethod[]]> =
   (handler: NetlifyHandler, allowedMethods: HttpMethod[]) =>
   async (request, context) => {
-    if (!allowedMethods.includes(request.method as HttpMethod)) {
+    if (!allowedMethods.some((method) => method === request.method)) {
       const payload: ApiResponse = {
         success: false,
         error: {
