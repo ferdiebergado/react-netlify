@@ -7,6 +7,14 @@ export function updateTheme(theme: Theme) {
 }
 
 export function loadTheme() {
-  const savedTheme = localStorage.getItem('vite-ui-theme') || 'system';
-  updateTheme(savedTheme as Theme);
+  const savedTheme = localStorage.getItem('vite-ui-theme');
+  if (
+    savedTheme === 'dark' ||
+    savedTheme === 'light' ||
+    savedTheme === 'system'
+  ) {
+    updateTheme(savedTheme);
+  } else {
+    updateTheme('system');
+  }
 }
